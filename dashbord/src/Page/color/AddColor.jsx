@@ -13,9 +13,8 @@ export default function AddColor() {
 
   useEffect(() => {
     if (params.id != '') {
-      setUpdateId(params.id);
-
-      axios.post(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_URL}/details/${params.id}`)
+      setUpdateId(params.id); 
+      axios.post(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_COLOR_API}/details/${params.id}`)
         .then((result) => {
           if (result.data._status == true) {
             setColorDetails(result.data._data)
@@ -44,9 +43,10 @@ export default function AddColor() {
       order: event.target.order.value,
     }
 
+    
     if (!updateId) {
       //add color
-      axios.post(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_URL}/create`, formData)
+      axios.post(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_COLOR_API}/create`, formData)
         .then((result) => {
           if (result.data._status == true) {
             toast.success(result.data._message);
@@ -62,7 +62,7 @@ export default function AddColor() {
     } 
     else {
       //update color
-      axios.put(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_URL}/update/${updateId}`, formData)
+      axios.put(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_COLOR_API}/update/${updateId}`, formData)
         .then((result) => {
           if (result.data._status == true) {
             toast.success(result.data._message);
@@ -81,7 +81,7 @@ export default function AddColor() {
 
   return (
     <div className="w-full">
-      <div className="max-w-[1220px] mx-auto py-5">
+      <div className="mx-auto py-5">
         <h3 className="text-[20px] font-semibold bg-slate-100 py-2 px-3 rounded-t-md border border-slate-400">
           {updateId ? "Update Color" : "Add Colors"}
         </h3>

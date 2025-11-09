@@ -1,13 +1,12 @@
-const colorModal = require('../../models/color');
+const colorModal = require('../../models/color.js');
 const env = require('dotenv').config();
 
-exports.create = (request, response) => {
+exports.create =async (request, response) => {
     var data = request.body;
-
 
     try {
 
-        var saveData = new colorModal(data).save()
+        var saveData =await new colorModal(data).save()
             .then((result) => {
                 const data = {
                     _status: true,
@@ -21,12 +20,12 @@ exports.create = (request, response) => {
                 var errors = [];
 
                 for (var i in error.errors) {
-                    console.log(error.errors[i].message);
+                    errors.push(error.errors[i].message);
                 }
 
                 const data = {
                     _status: false,
-                    _message: 'Something went wrong',
+                    _message: 'Something went wrong1',
                     _error: errors,
                     _data: null
                 }
@@ -35,7 +34,7 @@ exports.create = (request, response) => {
     } catch (error) {
         const data = {
             _status: false,
-            _message: 'Something went wrong',
+            _message: 'Something went wrong2',
             _error: error,
             _data: null
         }
@@ -303,13 +302,12 @@ exports.destroy = async (request, response) => {
 }
 exports.changeStatus =async(request, response) => {
     try {
-      
         await colorModal.updateMany({
             _id: request.body.ids
         }, [{
             $set: {
                 status :{
-                    $not :" $status"
+                    $not :"$status"
                 }
             }
         }])

@@ -1,13 +1,13 @@
 const materialModal = require('../../models/material');
 const env = require('dotenv').config();
 
-exports.create = (request, response) => {
+exports.create = async(request, response) => {
     var data = request.body;
 
 
     try {
 
-        var saveData = new materialModal(data).save()
+        var saveData =  await new materialModal(data).save()
             .then((result) => {
                 const data = {
                     _status: true,
@@ -297,13 +297,12 @@ exports.destroy = async (request, response) => {
 }
 exports.changeStatus =async(request, response) => {
     try {
-      
         await materialModal.updateMany({
             _id: request.body.ids
         }, [{
             $set: {
                 status :{
-                    $not :" $status"
+                    $not :"$status"
                 }
             }
         }])

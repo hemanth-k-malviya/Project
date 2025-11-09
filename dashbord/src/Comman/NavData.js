@@ -44,8 +44,8 @@ export const Nav = [
         icon: FaExpandArrowsAlt,
         subMenu: [
 
-            { subTitle: "Add Materials", subIcon: PiRadioButtonDuotone, link: "/Materials/add" },
-            { subTitle: "View Materials", subIcon: PiRadioButtonDuotone, link: "/Materials/view" }
+            { subTitle: "Add Materials", subIcon: PiRadioButtonDuotone, link: "/material/add" },
+            { subTitle: "View Materials", subIcon: PiRadioButtonDuotone, link: "/material/view" }
         ]
     },
 
@@ -55,8 +55,8 @@ export const Nav = [
         icon: FaBarsStaggered,
         subMenu: [
 
-            { subTitle: "Add Categories", subIcon: PiRadioButtonDuotone, link: "/parent-categories/add" },
-            { subTitle: "View Categories", subIcon: PiRadioButtonDuotone, link: "/parent-categories/view" }
+            { subTitle: "Add Categories", subIcon: PiRadioButtonDuotone, link: "/parent-category/add" },
+            { subTitle: "View Categories", subIcon: PiRadioButtonDuotone, link: "/parent-category/view" }
         ]
     },
     {

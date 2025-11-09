@@ -1,5 +1,5 @@
 const express = require('express');
-const { create, view, details, changeStatus, destroy, update } = require('../../controller/admin/color.controller');
+const { create, view, details, changeStatus, destroy, update } = require('../../controller/admin/material.controller');
 const routes = express.Router();
 const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })

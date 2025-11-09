@@ -1,8 +1,32 @@
-const defaultModal = require("../../models/default");
+
+const { default: slugify } = require('slugify');
+const categoryModal = require('../../models/category');
 const env = require('dotenv').config();
 
-exports.create = (request, response) => {
+const generateUniqueSlug = async (Model, baseSlug) => {
+    let slug = baseSlug;
+    let count = 0;
+
+    // Loop to find unique slug
+    while (await Model.findOne({ slug })) {
+        count++;
+        slug = `${baseSlug}-${count}`;
+    }
+
+    return slug;
+};
+
+
+exports.create = async (request, response) => {
     var data = request.body;
+    if (request.body.name) {
+        var slug = slugify(request.body.name, {
+            lower: true,      // convert to lower case, defaults to `false`
+            strict: true,     // strip special characters except replacement, defaults to `false`
+        });
+    }
+
+    data.slug = await generateUniqueSlug(categoryModal, slug)
 
     if (request.file) {
         data.image = request.file.filename;
@@ -10,12 +34,7 @@ exports.create = (request, response) => {
 
     try {
 
-        // const data = {
-        //     name: request.body.name,
-        //     order: request.body.order
-        // }
-
-        var saveData = new defaultModal(data).save()
+        var saveData = new categoryModal(data).save()
             .then((result) => {
                 const data = {
                     _status: true,
@@ -70,15 +89,10 @@ exports.view = async (request, response) => {
     }
 
     try {
-        // const data = {
-        //     name: request.body.name,
-        //     order: request.body.order
-        // }
 
         const addCondition = [
             {
                 deleted_at: null,
-                name: { $exists: true } // only show the name exisited in db
             }
         ];
 
@@ -104,20 +118,9 @@ exports.view = async (request, response) => {
             filter.$or = orCondition;
         }
 
+        total_record = await categoryModal.find(filter).countDocuments()
 
-        // let condition = {
-        //     deleted_at: null,
-        //     // status: true
-        // }
-
-        // if (request.body.name != '' && request.body.name != undefined) {
-        //     condition.name = request.body.name;
-        // }
-        // console.log(condition)
-
-        total_record = await defaultModal.find(filter).countDocuments()
-
-        await defaultModal.find(filter).select('name image status order').skip(skip).limit(limit).sort({ _id: 'desc' })
+        await categoryModal.find(filter).select('name image status order').skip(skip).limit(limit).sort({ _id: 'desc' })
             .then((result) => {
                 if (result.length > 0) {
 
@@ -131,7 +134,7 @@ exports.view = async (request, response) => {
                         _status: true,
                         _message: 'Record found succssfully',
                         _paginate: paginate,
-                        image_path: process.env.default_image,
+                        image_path: process.env.category_image,
                         _data: result
                     }
                     response.send(data);
@@ -170,7 +173,7 @@ exports.details = async (request, response) => {
 
     try {
 
-        await defaultModal.findById(request.params.id)
+        await categoryModal.findById(request.params.id)
             .then((result) => {
                 if (result) {
                     const data = {
@@ -213,13 +216,27 @@ exports.details = async (request, response) => {
 exports.update = async (request, response) => {
     try {
         var data = request.body;
+
+        if (request.body.name) {
+        var slug = slugify(request.body.name, {
+            lower: true,      // convert to lower case, defaults to `false`
+            strict: true,     // strip special characters except replacement, defaults to `false`
+        });
+    }
+
+        data.slug = await generateUniqueSlug(categoryModal, slug)
+
+
         data.updated_at = Date.now();
 
-        if (request.file) {
-            data.image = request.file.filename;
+        if (request.file != undefined) {
+            if (request.file) {
+                data.image = request.file.filename;
+            }
+
         }
 
-        await defaultModal.updateOne({
+        await categoryModal.updateOne({
             _id: request.params.id
         }, {
             $set: data
@@ -275,7 +292,7 @@ exports.destroy = async (request, response) => {
             deleted_at: Date.now()
         }
 
-        await defaultModal.updateMany({
+        await categoryModal.updateMany({
             _id: request.body.ids
         }, {
             $set: data
@@ -325,14 +342,14 @@ exports.destroy = async (request, response) => {
     }
 
 }
-exports.changeStatus =async(request, response) => {
+exports.changeStatus = async (request, response) => {
     try {
-        await defaultModal.updateMany({
+        await categoryModal.updateMany({
             _id: request.body.ids
         }, [{
             $set: {
-                status :{
-                    $not :"$status"
+                status: {
+                    $not: "$status"
                 }
             }
         }])

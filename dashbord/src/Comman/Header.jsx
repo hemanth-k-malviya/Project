@@ -8,7 +8,7 @@ export default function Header() {
     <div  className='h-[90px] flex justify-between p-[25px_30px] shadow-xl'>
         <div className='flex mt-[10px] text-[20px] '>
             <FaBars className='mt-[6px]'/>
-            <h3 className='ml-[10px] text-white'>Dashbord</h3>
+            <h3 className='ml-[10px] text-black'>Dashbord</h3>
         </div>
         <figure className='relative group w-12 h-12 cursor-pointer rounded-full'>
         <img src='https://i.pinimg.com/736x/bc/b2/3c/bcb23cb2c58aa5604164303f0a9194a1.jpg' className='w-[50px] h-[50px] rounded-[50%]'/>

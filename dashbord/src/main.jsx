@@ -8,7 +8,6 @@ import Left from './leftside/Left.jsx'
 import Layout from './homeP/Layout.jsx'
 import AddColor from './Page/color/AddColor.jsx'
 import ViewColor from './Page/color/ViewColor.jsx'
-import UpdateColor from './Page/color/UpdateColor.jsx'
 import Users from './Page/user/Users.jsx'
 import AMaterials from './Page/Materials/AddMaterials.jsx'
 import VMaterials from './Page/Materials/ViewMaterials.jsx'
@@ -35,7 +34,6 @@ import AddFaqs from './Page/faqs/AddFaqs.jsx'
 import ViewFaqs from './Page/faqs/ViewFaqs.jsx'
 import AddCountry from './Page/country/AddCountry.jsx'
 import ViewCountry from './Page/country/ViewCountry.jsx'
-import AddMaterials from './Page/Materials/AddMaterials.jsx'
 import ViewMaterials from './Page/Materials/ViewMaterials.jsx'
 import AddSliders from './Page/sliders/AddSliders.jsx'
 import ViewSliders from './Page/sliders/ViewSliders.jsx'
@@ -52,6 +50,9 @@ import Newsletters from './Page/Enquirys/Newsletters.jsx'
 import Dashboard from './Page/Dashbord.jsx'
 import Profile from './Page/Profile.jsx'
 import CompanyProfile from './Page/CompanyProfile.jsx'
+import AddMaterials from './Page/Materials/AddMaterials.jsx'
+import AddCategory from './Page/parent-Categorys/AddCategorys.jsx'
+import ViewCategory from './Page/color/ViewColor.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -70,11 +71,11 @@ createRoot(document.getElementById('root')).render(
           <Route path="color" >
             <Route path='add' element={<AddColor />} />
             <Route path='view' element={<ViewColor />} />
-            <Route path='update/:id' element={<UpdateColor />} />
+            <Route path='update/:id' element={<AddColor />} />
 
           </Route>
 
-          <Route path="Materials" >
+          <Route path="material" >
             <Route path='add' element={<AddMaterials />} />
             <Route path='view' element={<ViewMaterials />} />
             <Route path='update/:id' element={<AddMaterials />} />
@@ -85,13 +86,12 @@ createRoot(document.getElementById('root')).render(
             <Route path='' element={<ContactEnq />} />
             <Route path='' element={<Newsletters/>} />
             <Route path='update/:id' element={<ContactEnq />} />
-
           </Route>
 
-          <Route path="parent-Categorys" >
-            <Route path='add' element={<AddCategorys />} />
-            <Route path='view' element={<ViewCategorys />} />
-            <Route path='update/:id' element={<AddCategorys />} />
+          <Route path="parent-Category" >
+            <Route path='add' element={<AddCategory/>} />
+            <Route path='view' element={<ViewCategory/>} />
+            <Route path='update/:id' element={<AddCategory/>} />
 
           </Route>
 

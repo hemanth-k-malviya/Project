@@ -24,7 +24,7 @@ export default function ViewCategory() {
  const [apiStatus, setApiStatus] = useState(true);
 
   useEffect(() => {
-    axios.post(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_URL}/view`, {
+    axios.post(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_COLOR_API}/view`, {
       page: currentPage,
       name: searchName,
       code: searchCode
@@ -111,7 +111,7 @@ export default function ViewCategory() {
   }
 
   const changestatus = () => {
-    axios.put(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_BASE_URL}/change-status`,{
+    axios.put(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_COLOR_API}/change-status`,{
       ids : checkBoxValue
     })
       .then((result) => {
@@ -130,7 +130,7 @@ export default function ViewCategory() {
   }
 
   const deleteRecords = () => {
-      axios.put(`${import.meta.env.VITE_BASE_URL}${import.meta.env.VITE_BASE_URL}/delete`,{
+      axios.put(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_COLOR_API}/delete`,{
       ids : checkBoxValue
     })
       .then((result) => {
@@ -216,7 +216,7 @@ export default function ViewCategory() {
               <button
                 type="button"
                 onClick={changestatus}
-                class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" disabled={buttonDisabled ? 'disabled' : ''}> Change Status</button>
+                className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" disabled={buttonDisabled ? 'disabled' : ''}> Change Status</button>
 
 
               <button type="button"
@@ -235,31 +235,31 @@ export default function ViewCategory() {
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                      <th scope="col" class="p-4">
-                        <div class="flex items-center">
+                      <th scope="col" className="p-4">
+                        <div className="flex items-center">
                           <input
                             id="checkbox-all-search"
                             onClick={allCheckBoxSelect}
                             checked={checkBoxValue.length == colors.length ? 'checked' : ''}
 
                             type="checkbox"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                          <label for="checkbox-all-search" class="sr-only">checkbox</label>
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                          <label for="checkbox-all-search" className="sr-only">checkbox</label>
                         </div>
                       </th>
-                      <th scope="col" class="px-6 py-3">
+                      <th scope="col" className="px-6 py-3">
                         Color Name
                       </th>
-                      <th scope="col" class=" w-[10%] ">
+                      <th scope="col" className=" w-[10%] ">
                         Code
                       </th>
-                      <th scope="col" class=" w-[8%] ">
+                      <th scope="col" className=" w-[8%] ">
                         Order
                       </th>
-                      <th scope="col" class="w-[11%]">
+                      <th scope="col" className="w-[11%]">
                         Status
                       </th>
-                      <th scope="col" class="w-[6%]">
+                      <th scope="col" className="w-[6%]">
                         Action
                       </th>
                     </tr>

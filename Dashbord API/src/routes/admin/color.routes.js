@@ -7,8 +7,6 @@ const path = require('path')
 
 module.exports = server => {
 
-
-
     routes.post('/create', upload.none(), create);
     routes.post('/view', upload.none(), view);
     routes.post('/details/:id', upload.none(), details);

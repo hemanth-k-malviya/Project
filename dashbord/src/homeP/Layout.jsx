@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify'
 export default function Layout() {
   return (
     <div className="min-h-screen bg-gray-50">
+
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -16,27 +17,29 @@ export default function Layout() {
         pauseOnHover
         theme="light"
       />
-      
-      <div className='flex'>
-        {/* Sidebar */}
-        <div className='w-[280px] fixed h-screen shadow-lg'>
-          <Left />
+
+      {/* ✅ Sidebar fixed */}
+      <div className="w-[280px] fixed h-screen shadow-lg bg-[#0e2135]">
+        <Left />
+      </div>
+
+      {/* ✅ Main Content pushed to the right */}
+      <div className="ml-[280px] min-h-screen">  
+
+        {/* Header */}
+        <div className="sticky top-0 z-20 bg-white shadow-sm">
+          <Header />
         </div>
 
-        {/* Main Content */}
-        <div className='flex-1 ml-[280px]'>
-          <div className='sticky top-0 z-10'>
-            <Header />
+        {/* Page Content */}
+        <main className="p-6">
+          <div className="bg-white rounded-lg shadow-sm p-4">
+            <Outlet />
           </div>
-          
-          <main className='p-6'>
-            <div className='bg-white rounded-lg shadow-sm'>
-              <Outlet />
-            </div>
-          </main>
-        </div>
+        </main>
+
       </div>
+
     </div>
   )
 }
-
