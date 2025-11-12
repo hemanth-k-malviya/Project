@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-
 import { Link } from 'react-router-dom'
 import { MdFilterAltOff, MdModeEdit } from 'react-icons/md'
 import { FaFilter } from 'react-icons/fa'
@@ -10,7 +9,7 @@ import { toast } from 'react-toastify';
 import Breadcrumb from '../../Comman/Breadcrumb';
 
 
-export default function ViewMaterials() {
+export default function ViewCategorys() {
     let [activeFilter, setactiveFilter] = useState(true);
     const [categories, setCategories] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,6 +18,7 @@ export default function ViewMaterials() {
     const [checkBoxValues, setCheckBoxValues] = useState([]);
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [apiStatus, setAPIStatus] = useState(true);
+    const [imageUrl, setImageUrl] = useState('');
 
     useEffect(() => {
         axios.post(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_PARENT_CATEGORY_API}/view`, {
@@ -28,6 +28,7 @@ export default function ViewMaterials() {
             .then((result) => {
                 if (result.data._status == true) {
                     setCategories(result.data._data)
+                    setImageUrl(result.data.image_path)
                     setTotalPage(result.data._paginate.total_pages)
                 } else {
                     setCategories([]);
@@ -38,6 +39,7 @@ export default function ViewMaterials() {
                 toast.error('Something went wrong !!');
             })
     }, [currentPage, searchName, apiStatus]);
+
 
     const searchHandler = (event) => {
         event.preventDefault();
@@ -102,7 +104,7 @@ export default function ViewMaterials() {
     }
 
     const changeStatus = () => {
-        axios.put(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_PARENT_CATEGORY_API}/change-status`, {
+        axios.post(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_PARENT_CATEGORY_API}/change-status`, {
             ids: checkBoxValues
         })
             .then((result) => {
@@ -158,7 +160,7 @@ export default function ViewMaterials() {
                             />
                         </div>
                         <div className="relative w-full me-4">
-                           
+
                         </div>
                         <button
                             type="submit"
@@ -233,6 +235,9 @@ export default function ViewMaterials() {
                                                 <th scope="col" class="px-6 py-3">
                                                     Category Name
                                                 </th>
+                                                <th scope="col" class=" w-[10%] ">
+                                                    Image
+                                                </th>
                                                 <th scope="col" class=" w-[8%] ">
                                                     Order
                                                 </th>
@@ -271,6 +276,16 @@ export default function ViewMaterials() {
 
                                                                     </div>
                                                                 </th>
+                                                                <td class=" py-4">
+                                                                    {
+                                                                        v.imageUrl != ""
+                                                                        ?
+                                                                          <img class="w-10 h-10 rounded-full" src={`${imageUrl}${v.image}`} />
+                                                                        :
+                                                                        "N/A"
+                                                                    }
+                                                                  
+                                                                </td>
                                                                 <td class=" py-4">
                                                                     {v.order}
                                                                 </td>
@@ -335,4 +350,3 @@ export default function ViewMaterials() {
     )
 }
 
- <img class="w-10 h-10 rounded-full" src="https://packshifts.in/images/iso.png" alt="Jese image" />

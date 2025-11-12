@@ -26,6 +26,7 @@ require('./src/routes/admin/default.routes.js')(server);
 require('./src/routes/admin/color.routes.js')(server);
 require('./src/routes/admin/material.routes.js')(server);
 require('./src/routes/admin/category.routes.js')(server);
+require('./src/routes/admin/subCategory.routes.js')(server);
 
 mongoose.connect(`mongodb+srv://${process.env.user_name}:${process.env.password}@cluster0.mn2naxz.mongodb.net/${process.env.db_name}?appName=Cluster0`)
     .then(() => console.log('Connected!'))

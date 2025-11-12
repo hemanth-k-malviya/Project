@@ -4,30 +4,14 @@ import './index.css'
 import App from './App.jsx'
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Left from './leftside/Left.jsx'
 import Layout from './homeP/Layout.jsx'
 import AddColor from './Page/color/AddColor.jsx'
 import ViewColor from './Page/color/ViewColor.jsx'
 import Users from './Page/user/Users.jsx'
-import AMaterials from './Page/Materials/AddMaterials.jsx'
-import VMaterials from './Page/Materials/ViewMaterials.jsx'
 import ContactEnq from './Page/Enquirys/ContactEnq.jsx'
-import ACategorys from './Page/parent-Categorys/AddCategorys.jsx'
-import VCategorys from './Page/parent-Categorys/ViewCategorys.jsx'
-import AProducts from './Page/products/AddProducts.jsx'
-import VProducts from './Page/products/ViewProducts.jsx'
-import ASCategorys from './Page/sub-categorys/AddSubCategorys.jsx'
-import VSCategorys from './Page/sub-categorys/ViewSubCategorys.jsx'
-import ASSCategorys from './Page/sub-sub-categorys/AddSubSubCategorys.jsx'
-import VSSCategorys from './Page/sub-sub-categorys/ViewSubSubCategorys.jsx'
-import News from './Page/Enquirys/Newsletters.jsx'
 import Whyadd from './Page/why-choose-us/whyadd.jsx'
 import Whyview from './Page/why-choose-us/whyview.jsx'
 import Orders from './Page/orders/Orders.jsx'
-import ASliders from './Page/sliders/AddSliders.jsx'
-import VSliders from './Page/sliders/ViewSliders.jsx'
-import ACountry from './Page/country/AddCountry.jsx'
-import VCountry from './Page/country/ViewCountry.jsx'
 import AddTestimonials from './Page/testimonials/AddTestimonials.jsx'
 import ViewTestimonials from './Page/testimonials/ViewTestimonials.jsx'
 import AddFaqs from './Page/faqs/AddFaqs.jsx'
@@ -37,22 +21,19 @@ import ViewCountry from './Page/country/ViewCountry.jsx'
 import ViewMaterials from './Page/Materials/ViewMaterials.jsx'
 import AddSliders from './Page/sliders/AddSliders.jsx'
 import ViewSliders from './Page/sliders/ViewSliders.jsx'
-import AddCategorys from './Page/parent-Categorys/AddCategorys.jsx'
-import ViewCategorys from './Page/parent-Categorys/ViewCategorys.jsx'
 import AddSubCategorys from './Page/sub-categorys/AddSubCategorys.jsx'
 import ViewSubCategorys from './Page/sub-categorys/ViewSubCategorys.jsx'
 import AddSubSubCategorys from './Page/sub-sub-categorys/AddSubSubCategorys.jsx'
 import ViewSubSubCategorys from './Page/sub-sub-categorys/ViewSubSubCategorys.jsx'
 import AddProducts from './Page/products/AddProducts.jsx'
 import ViewProducts from './Page/products/ViewProducts.jsx'
-import NewsLettters from './Page/Enquirys/Newsletters.jsx'
 import Newsletters from './Page/Enquirys/Newsletters.jsx'
 import Dashboard from './Page/Dashbord.jsx'
 import Profile from './Page/Profile.jsx'
 import CompanyProfile from './Page/CompanyProfile.jsx'
 import AddMaterials from './Page/Materials/AddMaterials.jsx'
 import AddCategory from './Page/parent-Categorys/AddCategorys.jsx'
-import ViewCategory from './Page/color/ViewColor.jsx'
+import ViewCategorys from './Page/parent-Categorys/ViewCategorys.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -90,7 +71,7 @@ createRoot(document.getElementById('root')).render(
 
           <Route path="parent-Category" >
             <Route path='add' element={<AddCategory/>} />
-            <Route path='view' element={<ViewCategory/>} />
+            <Route path='view' element={<ViewCategorys/>} />
             <Route path='update/:id' element={<AddCategory/>} />
 
           </Route>

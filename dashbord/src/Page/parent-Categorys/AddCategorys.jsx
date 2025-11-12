@@ -20,7 +20,7 @@ export default function AddCategory() {
   //   });
   // }, []);
 
-  const [imageURL, setImageUrl] = useState('');
+  const [imageURL,setImageUrl] = useState('');
 
   useEffect(() => {
     const dropifyElement = $("#image");

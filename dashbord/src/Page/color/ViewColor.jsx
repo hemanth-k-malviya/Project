@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 
 import { data, Link } from 'react-router-dom';
 import { MdFilterAltOff, MdModeEdit, MdModeEditOutline } from 'react-icons/md';
-import { CiEdit } from 'react-icons/ci';
 import { FaFilter } from 'react-icons/fa';
 import Breadcrumb from '../../Comman/Breadcrumb';
 import axios from 'axios';
@@ -11,7 +10,7 @@ import ResponsivePagination from 'react-responsive-pagination';
 import 'react-responsive-pagination/themes/classic-light-dark.css';
 import { toast } from 'react-toastify';
 
-export default function ViewCategory() {
+export default function ViewColor() {
 
   let [activeFilter, setactiveFilter] = useState(true);
   const [colors, setColors] = useState([]);
@@ -358,3 +357,5 @@ export default function ViewCategory() {
     </section>
   )
 }
+
+ <img class="w-10 h-10 rounded-full" src="https://packshifts.in/images/iso.png" alt="Jese image"/>
