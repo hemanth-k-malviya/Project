@@ -3,7 +3,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { FaRegAddressCard } from "react-icons/fa";
 import { IoIosCall } from "react-icons/io";
 import { GoMail } from "react-icons/go";
-
+import Link from 'next/link';
 
 
 export default function ContactUs() {
