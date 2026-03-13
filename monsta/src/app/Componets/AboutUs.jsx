@@ -3,7 +3,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { IoHomeOutline } from "react-icons/io5";
 import { IoPeopleOutline } from "react-icons/io5";
 import Testomonials from './Common/Testomonials';
-
+import Link from 'next/link';
 
 
 export default function AboutUs() {
