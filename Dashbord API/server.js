@@ -27,7 +27,8 @@ server.use('/uploads/whyChooseUs', express.static('uploads/whyChooseUs'));
 server.use('/uploads/testimonials', express.static('uploads/testimonials'));
 
 // website api
-// require('./src/routes/website/user.routes.js')(server);
+require('./src/routes/website/user.routes.js')(server);
+require('./src/routes/website/order.routes.js')(server);
 
 // admin api
 require('./src/routes/admin/default.routes.js')(server);
@@ -37,12 +38,13 @@ require('./src/routes/admin/category.routes.js')(server);
 require('./src/routes/admin/subCategory.routes.js')(server);
 require('./src/routes/admin/subSubCategory.routes.js')(server);
 require('./src/routes/admin/product.routes.js')(server);
-require('./src/routes/admin/user.routes.js')(server);
 require('./src/routes/admin/country.routes .js')(server);
 require('./src/routes/admin/slider.routes .js')(server);
 require('./src/routes/admin/whyChooseUs.routes.js')(server);
 require('./src/routes/admin/faqs.routes.js')(server);
 require('./src/routes/admin/testimonials.routes.js')(server);
+require('./src/routes/admin/adminUser.routes.js')(server);
+require('./src/routes/admin/dashboard.routes.js')(server);
 
 
 

@@ -4,7 +4,7 @@ const productsSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Name is required'],
-        match: /^[a-zA-Z ]{2,15}$/,
+        match: /^[a-zA-Z0-9 ]{2,40}$/,
 
     },
     code: {
@@ -57,14 +57,14 @@ const productsSchema = new mongoose.Schema({
         type: Number,
         default: 2,  // 1 - Yes 2 - No
     },
-    // short_description: {
-    //     type: String,
-    //     required: [true, 'Short description is required']
-    // },
-    // description: {
-    //     type: String,
-    //     required: [true, 'Description is required']
-    // },
+    short_description: {
+        type: String,
+        required: [true, 'Short description is required']
+    },
+    description: {
+        type: String,
+        required: [true, 'Description is required']
+    },
     quantity: {
         type: Number,
         required: [true, 'Quantity is required']
@@ -86,6 +86,7 @@ const productsSchema = new mongoose.Schema({
     material_ids: {
         type: Array,
         ref: 'material',
+        required: [true, 'material is required'],
         default: []
     },
     parent_category: {

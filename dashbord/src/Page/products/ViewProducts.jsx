@@ -357,29 +357,29 @@ export default function ViewProducts() {
                                   <label for="checkbox-table-search-1" class="sr-only">checkbox</label>
                                 </div>
                               </td>
-                              <td class=" py-4">
+                              <td class=" px-3 py-4">
                                 {v.name}
                               </td>
-                              <td class=" py-4">
+                              <td class="px-3 py-4">
                                 {v.code}
                               </td>
-                              <td class=" py-4">
+                              <td class="px-3 py-4">
                                 {v.parent_category?.name || ''}
                               </td>
-                              <td className=" py-4">
+                              <td className="px-3 py-4">
                                 {v.color_ids?.[0]?.name || ''}
                               </td>
-                              <td className=" py-4">
+                              <td className="px-3 py-4">
                                 {v.material_ids?.[0]?.name || ''}
                               </td>
-                              <td class=" py-4">
+                              <td class="px-3 py-4">
                                 {v.actual_price}
                               </td>
-                              <td class=" py-4">
+                              <td class="px-3 py-4">
                                 {v.sale_price}
                               </td>
-                              <td class=" py-4">
-                                {v.order}
+                              <td class="px-4 py-4">
+                                {v.is_top_rated}
                               </td>
                               <td class=" py-4">
                                 {
@@ -404,7 +404,7 @@ export default function ViewProducts() {
                         :
                         <tr class="bg-white  dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
 
-                          <td colSpan={8} class=" px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                          <td colSpan={11} class=" px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
 
                             <div class="py-4">
                               <div class="text-base font-semibold text-center">No Record Found !</div>
@@ -418,7 +418,7 @@ export default function ViewProducts() {
 
                   </tbody>
                 </table>
-                <div className='w-300 auto mb-3'>
+                <div className='w-300 auto m-3'>
                   <ResponsivePagination
                     current={currentPage}
                     total={totalPage}

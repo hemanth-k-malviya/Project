@@ -70,7 +70,7 @@ export default function AddProducts() {
   useEffect(() => {
     if (parent_category_id != '') {
       axios.post(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_PRODUCT_API}/view-sub-category`, {
-         id: sub_category_id,
+        id: sub_category_id,
         parent_category: parent_category_id
       })
         .then((result) => {
@@ -88,14 +88,14 @@ export default function AddProducts() {
   useEffect(() => {
     if (parent_category_id && sub_category_id) {
       axios.post(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_PRODUCT_API}/view-sub-sub-category`, {
-          id: sub_sub_category_id,
+        id: sub_sub_category_id,
         parent_category: parent_category_id,
         sub_category: sub_category_id
       })
         .then((result) => {
           if (result.data._status) {
             setSubSubCategories(result.data._data);
-          }else{
+          } else {
             setSubSubCategories([]);
           }
         })
@@ -141,7 +141,6 @@ export default function AddProducts() {
         formData.append(key, data[key]);
       }
     });
-    console.log(formData)
 
     if (!updateId) {
       // Add Product
@@ -184,26 +183,36 @@ export default function AddProducts() {
       axios.post(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_PRODUCT_API}/details/${params.id}`)
         .then((result) => {
           if (result.data._status == true) {
+            const data = result.data._data;
 
-            if (result.data._data) {
-              Object.entries(result.data._data).forEach(([key, value]) => {
-                setValue(key, value)
-              });
-            }
+            // Set only scalar and string values from the API response
+            Object.entries(data).forEach(([key, value]) => {
+              // Skip arrays, objects (except for nested primitives)
+              if (value !== null && typeof value !== 'object') {
+                setValue(key, value);
+              }
+            });
 
-            setMaterial_id(result.data._data.material_ids[0])
-            setColor_id(result.data._data.color_ids[0])
-            setProductDetails(result.data._data)
-            set_parent_category_id(result.data._data.parent_category)
-            set_sub_category_id(result.data._data.sub_category)
-            set_sub_sub_category_id(result.data._data.sub_sub_category_ids)
+            // Explicitly set dropdown values
+            setValue("material_ids", data.material_ids?.[0]?._id || data.material_ids?.[0] || '');
+            setValue("color_ids", data.color_ids?.[0]?._id || data.color_ids?.[0] || '');
+            setValue("parent_category", data.parent_category?._id || data.parent_category || '');
+            setValue("sub_category", data.sub_category?._id || data.sub_category || '');
+            setValue("sub_sub_category_ids", data.sub_sub_category_ids?.[0]?._id || data.sub_sub_category_ids?.[0] || data.sub_sub_category || '');
 
-            if (result.data._data.image != '') {
-              setImageUrl(`${result.data.image_path}${result.data._data.image}`)
+            // Set state values for dropdowns
+            setMaterial_id(data.material_ids?.[0]?._id || data.material_ids?.[0] || '');
+            setColor_id(data.color_ids?.[0]?._id || data.color_ids?.[0] || '');
+            setProductDetails(data);
+            set_parent_category_id(data.parent_category?._id || data.parent_category || '');
+            set_sub_category_id(data.sub_category?._id || data.sub_category || '');
+            set_sub_sub_category_id(data.sub_sub_category_ids?.[0]?._id || data.sub_sub_category_ids?.[0] || data.sub_sub_category || '');
+
+            if (data.image != '') {
+              setImageUrl(`${result.data.image_path}${data.image}`);
             }
           } else {
             setProductDetails('');
-
           }
         })
         .catch(() => {
@@ -213,7 +222,7 @@ export default function AddProducts() {
     else {
       setUpdateId('')
     }
-  }, [params])
+  }, [params, setValue])
 
   useEffect(() => {
     $(".dropify").dropify({
@@ -227,24 +236,24 @@ export default function AddProducts() {
   }, []);
 
   // Dropify
-//  useEffect(() => {
-//     const dropifyElement = $("#image");
+  //  useEffect(() => {
+  //     const dropifyElement = $("#image");
 
-//     if (dropifyElement.data("dropify")) {
-//       dropifyElement.data("dropify").destroy();
-//       dropifyElement.removeData("dropify");
-//     }
+  //     if (dropifyElement.data("dropify")) {
+  //       dropifyElement.data("dropify").destroy();
+  //       dropifyElement.removeData("dropify");
+  //     }
 
-//     // **Force Update Dropify Input**
-//     dropifyElement.replaceWith(
-//       `<input type="file" accept="image/*" name="image" id="image"
-//           class="dropify" data-height="250" data-default-file="${imageURL}"/>`
-//     );
+  //     // **Force Update Dropify Input**
+  //     dropifyElement.replaceWith(
+  //       `<input type="file" accept="image/*" name="image" id="image"
+  //           class="dropify" data-height="250" data-default-file="${imageURL}"/>`
+  //     );
 
-//     // **Reinitialize Dropify**
-//     $("#image").dropify();
+  //     // **Reinitialize Dropify**
+  //     $("#image").dropify();
 
-//   }, [imageURL]); // ✅ Runs when `defaultImage` updates
+  //   }, [imageURL]); // ✅ Runs when `defaultImage` updates
 
 
   return (
@@ -297,7 +306,8 @@ export default function AddProducts() {
                       id="image"
                       className="dropify"
                       data-height="160"
-                      {...register("image", { required: false })} />
+                      {...register("image", { required: false })}
+                     />
                     :
                     <input
                       type="file"
@@ -346,7 +356,7 @@ export default function AddProducts() {
                       className="dropify"
                       data-height="160"
                       multiple="multiple"
-                      {...register("images", { required: false })}
+                      {...register("image", { required: false })}      
                     />
                     :
                     <input
@@ -356,7 +366,7 @@ export default function AddProducts() {
                       className="dropify"
                       data-height="160"
                       multiple="multiple"
-                      {...register("images", { required: "Gallery Image is required" })}
+                      {...register("image", { required: "Gallery Image is required" })}
                     />
                 }
 
@@ -392,7 +402,7 @@ export default function AddProducts() {
                   Select Meterial
                 </label>
                 <select
-                  // {...register("material_ids", { required: "Meterial is required" })}
+                  {...register("material_ids", { required: "Meterial is required" })}
                   name="material_ids"
                   className="text-[19px] text-[#76838f] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg block w-full py-2.5 px-3">
                   <option value="">Nothing Selected</option>
@@ -400,13 +410,12 @@ export default function AddProducts() {
                     materials.map((v, i) => {
                       return (
                         <option key={i} value={v._id} selected={material_id == v._id ? 'selected' : ''}>{v.name}</option>
-
                       )
                     })
                   }
 
                 </select>
-                {/* {errors.material_ids && <p className="text-red-500 text-sm">{errors.material_ids.message}</p>} */}
+                {errors.material_ids && <p className="text-red-500 text-sm">{errors.material_ids.message}</p>}
               </div>
 
               <div className="mb-5">
@@ -546,7 +555,7 @@ export default function AddProducts() {
                   defaultValue={productDetails.estimate_delivery_days}
                   className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3"
                   placeholder='   Estimate Delivery Days'
-                  name="order"
+                  name="estimate_delivery_days"
                   {...register("estimate_delivery_days", { required: "    Estimate Delivery Days is required" })}
                 />
                 {errors.estimate_delivery_days && <p className="text-red-500 text-sm">{errors.estimate_delivery_days.message}</p>}
@@ -561,7 +570,7 @@ export default function AddProducts() {
                 </label>
                 <input
                   type="text"
-
+                  defaultValue={productDetails.order}
                   className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3"
                   placeholder='Order'
                   name="order"
@@ -768,27 +777,33 @@ export default function AddProducts() {
               Short Description
             </label>
             <textarea
+              {...register("short_description", { required: "Short Description is required" })}
               name='short_description'
-              className='text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 h-[200px]' defaultValue={productDetails.short_description}
-            >{productDetails.short_description}</textarea>
+              className='text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 h-[200px]'
+              defaultValue={productDetails.short_description}
+            />
           </div>
           {errors.short_description && (
             <p className="text-red-500 text-sm">{errors.short_description.message}</p>
           )}
 
-          {/* <div className='py-[40px]'>
+          <div className='py-[10px]'>
             <label
-              htmlFor="categoryImage"
-              className="block  text-md font-medium text-gray-900 text-[#76838f]"
-            >
+              htmlFor="description"
+              className="block  text-md font-medium text-gray-900 text-[#76838f]">
               Description
             </label>
-            < ReactQuill theme="snow" value={editorValue} onChange={setEditorValue} className='h-[200px]' {...register("description", { required: "Description is required" })} />
+            <textarea
+              {...register("description", { required: " Description is required" })}
+              name='description'
+              className='text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3 h-[200px]'
+              defaultValue={productDetails.description}
+            />
 
           </div>
           {errors.description && (
             <p className="text-red-500 text-sm">{errors.description.message}</p>
-          )} */}
+          )}
 
           <button class=" mt-5 text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 ">
             {updateId ? "Update Product " : "Add Product"}

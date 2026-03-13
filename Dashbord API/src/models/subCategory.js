@@ -4,7 +4,7 @@ const subCategorySchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Name is required'],
-        match: /^[a-zA-Z ]{2,15}$/,
+        match: /^[a-zA-Z0-9 ]{2,40}$/,
 
     },
     slug: {

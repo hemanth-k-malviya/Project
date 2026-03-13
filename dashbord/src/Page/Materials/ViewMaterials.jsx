@@ -28,7 +28,7 @@ export default function ViewMaterials() {
             .then((result) => {
                 if (result.data._status == true) {
                     setMaterial(result.data._data)
-                    setTotalPage(result.data._paginate.total_pages)
+                    setTotalPage(result.data._paginate.total_page)
                 } else {
                     setMaterial([]);
                     setTotalPage(1);
@@ -322,7 +322,7 @@ export default function ViewMaterials() {
 
                                         </tbody>
                                     </table>
-                                    <div className='w-300 auto mb-3'>
+                                    <div className='w-300 auto m-3'>
                                         <ResponsivePagination
                                             current={currentPage}
                                             total={totalPage}

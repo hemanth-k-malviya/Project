@@ -46,34 +46,38 @@ export default function Footer() {
 
                     <ul className='leading-[30px] text-[rgb(90,90,90)]  pl-[25px]'>
                         <li className='font-bold text-[18px] pb-[15px] text-black'>My Account</li>
-                        <li>My Dashboard</li>
-                        <li>Wishlist</li>
-                        <li>Cart</li>
-                        <li>Checkout</li>
+                        <li> <Link href={'/my-dashboard'}>My Dashboard</Link></li>
+                        <li>  <Link href={'/wishlist'}>Wishlist</Link></li>
+                        <li> <Link href={'/cart'}>Cart</Link></li>
+                        <li> <Link href={'/checkout'}>Checkout</Link></li>
                     </ul>
 
 
                     <ul className='leading-[30px] text-[rgb(90,90,90)]  pl-[25px]'>
                         <li className='font-bold text-[18px] pb-[15px] text-black'>Top Rated Products</li>
-                        <li className='flex items-center'>
-                            <img src="https://wscubetech.co/Assignments/furniture/storage/app/public/uploads/images/products/1617816851291Calina%20Swing%20Jhula__.jpg" className='w-[110px]' alt="Wooden Jhula" />
-                            <div className='p-[15px_10px] text-[14px] font-semibold leading-[20px]'>
-                                <p className='mt-1'>Wooden Jhula</p>
-                                <p className='mt-1'>Calina Swing Jhula</p>
-                                <p className='text-[#C09578] mt-1'><span className='line-through text-gray-600'>Rs.65.000</span> Rs.58,000</p>
-                            </div>
-                        </li>
+                        <Link href={'/categories'}>
+                            <li className='flex items-center'>
+                                <img src="https://wscubetech.co/Assignments/furniture/storage/app/public/uploads/images/products/1617816851291Calina%20Swing%20Jhula__.jpg" className='w-[110px]' alt="Wooden Jhula" />
+                                <div className='p-[15px_10px] text-[14px] font-semibold leading-[20px]'>
+                                    <p className='mt-1'>Wooden Jhula</p>
+                                    <p className='mt-1'>Calina Swing Jhula</p>
+                                    <p className='text-[#C09578] mt-1'><span className='line-through text-gray-600'>Rs.65.000</span> Rs.58,000</p>
+                                </div>
+                            </li>
+                        </Link>
                         <li>
                             <hr className='text-[rgb(90,90,90)] shadow' />
                         </li>
-                        <li className='flex items-center'>
-                            <img src="https://wscubetech.co/Assignments/furniture/storage/app/public/uploads/images/products/1663411513681Group%201.jpg" className='w-[110px]' alt="1 Seater Sofa" />
-                            <div className='p-[15px_10px] text-[14px] font-semibold leading-[20px]'>
-                                <p className='mt-1'>1 Seater Sofa</p>
-                                <p className='mt-1'>Yuvi sheesham wood sofa set</p>
-                                <p className='text-[#C09578] mt-1'><span className='line-through text-gray-600'>Rs. 10,000</span> Rs. 7,600</p>
-                            </div>
-                        </li>
+                        <Link href={'/categories'}>
+                            <li className='flex items-center'>
+                                <img src="https://wscubetech.co/Assignments/furniture/storage/app/public/uploads/images/products/1663411513681Group%201.jpg" className='w-[110px]' alt="1 Seater Sofa" />
+                                <div className='p-[15px_10px] text-[14px] font-semibold leading-[20px]'>
+                                    <p className='mt-1'>1 Seater Sofa</p>
+                                    <p className='mt-1'>Yuvi sheesham wood sofa set</p>
+                                    <p className='text-[#C09578] mt-1'><span className='line-through text-gray-600'>Rs. 10,000</span> Rs. 7,600</p>
+                                </div>
+                            </li>
+                        </Link>
                     </ul>
                 </div>
                 <div className='border border-gray-200 m-1'></div>

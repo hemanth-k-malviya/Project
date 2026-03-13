@@ -375,6 +375,7 @@ exports.update = async (request, response) => {
     }
 
 }
+
 exports.destroy = async (request, response) => {
     try {
         var data = {
@@ -431,6 +432,7 @@ exports.destroy = async (request, response) => {
     }
 
 }
+
 exports.changeStatus = async (request, response) => {
     try {
         await categoryModal.updateMany({

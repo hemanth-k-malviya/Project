@@ -1,16 +1,20 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import Silder from './Common/Silder';
 import Image from '../../../public/images/imgi_3_124ad5ba-005d-4b47-a707-a9a87033833a-1670180400.webp';
 import ProductCard from './ProductCard';
+import BestSellingProducts from './BestSellingProducts';
 import { CiHeart } from 'react-icons/ci';
 import { BiWorld } from "react-icons/bi";
 import { BsCheck2Circle } from "react-icons/bs";
 import { IoTimeOutline } from "react-icons/io5";
 import Testomonials from './Common/Testomonials';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 export default function Home() {
-
+    const [activeTab, setActiveTab] = useState('featured'); // featured | new_arrival | onsale
     return (
         <>
             <Silder />
@@ -56,19 +60,25 @@ export default function Home() {
             <div className="max-w-[1280px] w-full mx-auto my-1 px-4">
                 <div className="flex justify-center mt-10">
                     <div className="flex border border-gray-200 ">
-                        <div className="px-12 py-2 text-lg font-medium text-black border-r border-gray-300  hover:text-[#C09578]">
+                        <div
+                            onClick={() => setActiveTab('featured')}
+                            className={`px-12 py-2 text-lg font-medium border-r border-gray-300 hover:text-[#C09578] ${activeTab === 'featured' ? 'text-[#C09578]' : 'text-black'}`} >
                             Featured
                         </div>
-                        <div className="px-12 py-2 text-lg font-medium text-black-400  -m-px  hover:text-[#C09578]">
+                        <div
+                            onClick={() => setActiveTab('new_arrival')}
+                            className={`px-12 py-2 text-lg font-medium -m-px hover:text-[#C09578] ${activeTab === 'new_arrival' ? 'text-[#C09578]' : 'text-black'}`}>
                             New Arrivals
                         </div>
-                        <div className="px-12 py-2 text-lg font-medium text-black border-l border-gray-300  hover:text-[#C09578]">
+                        <div
+                            onClick={() => setActiveTab('onsale')}
+                            className={`px-12 py-2 text-lg font-medium border-l border-gray-300 hover:text-[#C09578] ${activeTab === 'onsale' ? 'text-[#C09578]' : 'text-black'}`}>
                             Onsale
                         </div>
                     </div>
                 </div>
             </div>
-            <ProductCard />
+            <ProductCard activeTab={activeTab} />
 
             {/* New Trending Collection */}
             <div className="w-full h-[500px] my-15 bg-cover bg-center bg-[url('/images/imgi_37_e9234fa4-3ff6-4a6e-a00e-0c9ff26e7b20-1670180400.jpg')]  ">
@@ -81,90 +91,10 @@ export default function Home() {
                 </div>
             </div>
 
-            {/* Bestselling Products */}
-            <div className="max-w-[1280px] w-full mx-auto my-1 ">
-                <div className='flex'>
-                    <p className='text-[30px] font-bold '>Bestselling Products</p>
-                    <div className='w-[940px] border-b-1 border-gray-300 mb-5 mr-1'></div>
-                </div>
+            {/* Bestselling Products (dynamic from API) */}
+            <BestSellingProducts />
 
-                <div className='grid grid-cols-5 gap-3'>
-
-                    <div className="w-[240px] h-[320px] border border-gray-200 mt-7 shadow-xl ">
-                        <img src="/images/imgi_21_16253179270591620747711033Hardwell Temple Prayer Unit__.jpg" className='' />
-                        <div className="text-center p-2">
-                            <p className='py-1'>Prayer Units</p>
-                            <h4 className='py-1'>Hardwell Temple Prayer Unit</h4>
-                            <p className='py-1'><del>Rs. 10,000</del> Rs. 9,400</p>
-                        </div>
-
-                        <div className="flex gap-1 justify-center px-4">
-                            <CiHeart className='text-[30px] bg-gray-100 py-1  hover:bg-[#C09578] cursor-pointer ' />
-                            <p className='text-[16px] bg-gray-100 px-2 py-1 hover:bg-[#C09578] cursor-pointer '>Add To Cart</p>
-                        </div>
-                    </div>
-
-                    <div className="w-[240px] h-[320px] border border-gray-200 mt-7 shadow-xl ">
-                        <img src="/images/imgi_21_16253179270591620747711033Hardwell Temple Prayer Unit__.jpg" className='' />
-                        <div className="text-center p-2">
-                            <p className='py-1'>Prayer Units</p>
-                            <h4 className='py-1'>Hardwell Temple Prayer Unit</h4>
-                            <p className='py-1'><del>Rs. 10,000</del> Rs. 9,400</p>
-                        </div>
-
-                        <div className="flex gap-1 justify-center px-4">
-                            <CiHeart className='text-[30px] bg-gray-100 py-1  hover:bg-[#C09578] cursor-pointer ' />
-                            <p className='text-[16px] bg-gray-100 px-2 py-1 hover:bg-[#C09578] cursor-pointer '>Add To Cart</p>
-                        </div>
-                    </div>
-
-                    <div className="w-[240px] h-[320px] border border-gray-200 mt-7 shadow-xl ">
-                        <img src="/images/imgi_21_16253179270591620747711033Hardwell Temple Prayer Unit__.jpg" className='' />
-                        <div className="text-center p-2">
-                            <p className='py-1'>Prayer Units</p>
-                            <h4 className='py-1'>Hardwell Temple Prayer Unit</h4>
-                            <p className='py-1'><del>Rs. 10,000</del> Rs. 9,400</p>
-                        </div>
-
-                        <div className="flex gap-1 justify-center px-4">
-                            <CiHeart className='text-[30px] bg-gray-100 py-1  hover:bg-[#C09578] cursor-pointer ' />
-                            <p className='text-[16px] bg-gray-100 px-2 py-1 hover:bg-[#C09578] cursor-pointer '>Add To Cart</p>
-                        </div>
-                    </div>
-
-                    <div className="w-[240px] h-[320px] border border-gray-200 mt-7 shadow-xl ">
-                        <img src="/images/imgi_21_16253179270591620747711033Hardwell Temple Prayer Unit__.jpg" className='' />
-                        <div className="text-center p-2">
-                            <p className='py-1'>Prayer Units</p>
-                            <h4 className='py-1'>Hardwell Temple Prayer Unit</h4>
-                            <p className='py-1'><del>Rs. 10,000</del> Rs. 9,400</p>
-                        </div>
-
-                        <div className="flex gap-1 justify-center px-4">
-                            <CiHeart className='text-[30px] bg-gray-100 py-1  hover:bg-[#C09578] cursor-pointer ' />
-                            <p className='text-[16px] bg-gray-100 px-2 py-1 hover:bg-[#C09578] cursor-pointer '>Add To Cart</p>
-                        </div>
-                    </div>
-
-                    <div className="w-[240px] h-[320px] border border-gray-200 mt-7 shadow-xl ">
-                        <img src="/images/imgi_21_16253179270591620747711033Hardwell Temple Prayer Unit__.jpg" className='' />
-                        <div className="text-center p-2">
-                            <p className='py-1'>Prayer Units</p>
-                            <h4 className='py-1'>Hardwell Temple Prayer Unit</h4>
-                            <p className='py-1'><del>Rs. 10,000</del> Rs. 9,400</p>
-                        </div>
-
-                        <div className="flex gap-1 justify-center px-4">
-                            <CiHeart className='text-[30px] bg-gray-100 py-1  hover:bg-[#C09578] cursor-pointer ' />
-                            <p className='text-[16px] bg-gray-100 px-2 py-1 hover:bg-[#C09578] cursor-pointer '>Add To Cart</p>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-
+            {/* policy */}
             <div className=" w-full mx-auto border border-gray-200 h-[270px] bg-gray-200 mt-10">
                 <div className="max-w-[1280px] w-full mx-auto my-1 ">
                     <div className='flex justify-evenly '>

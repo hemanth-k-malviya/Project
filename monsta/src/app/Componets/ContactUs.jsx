@@ -12,7 +12,7 @@ export default function ContactUs() {
       <div className="max-w-[1280px] w-full mx-auto my-1 px-4">
         <p className='text-[40px] font-bold text-center'> Contact Us</p>
         <div className='flex justify-center' >
-          <p className="text-[16px] hover:text-[#C09578]"> Home </p>
+          <Link href={'/'}><p className="text-[16px] hover:text-[#C09578]"> Home </p></Link>  
           <p className="text-[16px] text-[#C09578] px-1"><IoIosArrowForward className='mt-1.5' /></p>
           <p className="text-[16px] text-[#C09578]">Contact Us </p>
         </div>

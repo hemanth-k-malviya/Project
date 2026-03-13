@@ -325,7 +325,7 @@ export default function Whyview() {
                                         }
                                     </tbody>
                                 </table>
-                                <div className='w-300 auto mb-3'>
+                                <div className='w-300 auto m-3'>
                                     <ResponsivePagination
                                         current={currentPage}
                                         total={totalPage}

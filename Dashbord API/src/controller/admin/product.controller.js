@@ -331,12 +331,12 @@ exports.view = async (request, response) => {
     var current_page = 1;
     var total_record = 0;
     var total_page = 0;
-    var limit = 10;
+    var limit = 12;
     var skip = 0;
 
-    if (request.body) {
+        if (request.body) {
 
-        if (request.body.limit != '' && request.body.limit != undefined) {
+            if (request.body.limit != '' && request.body.limit != undefined) {
             limit = parseInt(request.body.limit)
         }
         if (request.body.page != '' && request.body.page != undefined) {
@@ -368,13 +368,25 @@ exports.view = async (request, response) => {
                 }
 
             }
-            if (request.body.sub_category != undefined) {
-                if (request.body.sub_category != '') {
-                    addCondition.push({ sub_category: request.body.sub_category })
-                }
-
+            if (Array.isArray(request.body.sub_category_ids) && request.body.sub_category_ids.length > 0) {
+                addCondition.push({ sub_category: { $in: request.body.sub_category_ids } });
+            } else if (request.body.sub_category != undefined && request.body.sub_category != '') {
+                addCondition.push({ sub_category: request.body.sub_category });
             }
 
+            // Tab-based filters: featured / new arrival / onsale / best selling
+            if (request.body.is_featured != undefined && request.body.is_featured !== '') {
+                addCondition.push({ is_featured: parseInt(request.body.is_featured) });
+            }
+            if (request.body.is_new_arrival != undefined && request.body.is_new_arrival !== '') {
+                addCondition.push({ is_new_arrival: parseInt(request.body.is_new_arrival) });
+            }
+            if (request.body.is_onsale != undefined && request.body.is_onsale !== '') {
+                addCondition.push({ is_onsale: parseInt(request.body.is_onsale) });
+            }
+            if (request.body.is_best_selling != undefined && request.body.is_best_selling !== '') {
+                addCondition.push({ is_best_selling: parseInt(request.body.is_best_selling) });
+            }
         }
 
         if (addCondition.length > 0) {
@@ -397,7 +409,7 @@ exports.view = async (request, response) => {
             .populate('sub_category', 'name')
             .populate('sub_sub_category_ids', 'name')
             .populate('color_ids', 'name')
-            .populate('material_ids', 'name').sort({ _id: 'desc' })
+            .populate('material_ids', 'name').skip(skip).limit(limit).sort({ _id: 'desc' })
             .then((result) => {
                 if (result.length > 0) {
 
@@ -453,6 +465,9 @@ exports.details = async (request, response) => {
     try {
 
         await productModal.findById(request.params.id)
+            .populate('parent_category', 'name')
+            .populate('color_ids', 'name')
+            .populate('material_ids', 'name')
             .then((result) => {
                 if (result) {
                     const data = {
@@ -496,21 +511,18 @@ exports.update = async (request, response) => {
     try {
         var data = request.body;
 
-
         var slug = slugify(request.body.name, {
             lower: true,      // convert to lower case, defaults to `false`
             strict: true,     // strip special characters except replacement, defaults to `false`
         });
 
-
-        data.slug = await generateUniqueSlug(productModal, slug)
-
+        data.slug = await generateUniqueSlug(productModal, slug);
 
         data.updated_at = Date.now();
 
-        //  if(data.sub_sub_categories_ids != ''){
-        //     data.sub_sub_category_ids = data.sub_sub_category_ids.split(',');
-        // }
+        if (data.sub_sub_categories_ids != '') {
+            data.sub_sub_category_ids = data.sub_sub_category_ids.split(',');
+        }
 
         console.log(data);
 
@@ -544,14 +556,15 @@ exports.update = async (request, response) => {
                 if (result.matchedCount == 1) {
                     const data = {
                         _status: true,
-                        _message: 'record update succssfully',
+                        _message: 'Record update succussfully',
                         _data: result
                     }
                     response.send(data);
+                    console.log(data)
                 } else {
                     const data = {
                         _status: false,
-                        _message: 'record does not exist',
+                        _message: 'Record does not exist',
                         _data: result
                     }
                     response.send(data);
@@ -559,16 +572,16 @@ exports.update = async (request, response) => {
 
             })
             .catch((error) => {
-
+                console.log(error);
                 var errors = [];
 
                 for (var i in error.errors) {
-                    console.log(error.errors[i].message);
+                    errors.push(error.errors[i].message);
                 }
 
                 const data = {
                     _status: false,
-                    _message: 'Something went wrong 1',
+                    _message: 'Something went wrong 2',
                     _error: errors,
                     _data: null
                 }
@@ -585,6 +598,7 @@ exports.update = async (request, response) => {
     }
 
 }
+
 exports.destroy = async (request, response) => {
     try {
         var data = {

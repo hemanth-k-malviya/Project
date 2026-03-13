@@ -34,12 +34,19 @@ import ViewCategorys from './Page/parent-Categorys/ViewCategorys.jsx'
 import AddSubSubCategorys from './Page/sub-sub-categorys/AddSubSubCategorys.jsx'
 import ViewSubSubCategorys from './Page/sub-sub-categorys/ViewSubSubCategorys.jsx'
 import Newsletters from './Page/Enquirys/Newsletters.jsx'
+import ForgotPassword from './Page/ForgotPassword.jsx'
+import ResetPassword from './Page/ResetPassword.jsx'
+import { ToastContainer } from 'react-toastify'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter>  
+    <ToastContainer position="top-right" autoClose={3000} />
+
       <Routes>
-        <Route path="/" element={<App />} />
+      <Route path="/" element={<App />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token?" element={<ResetPassword />} />
 
         <Route element={<Layout />} >
           <Route path="/Dashboard" element={<Dashboard/>}/>

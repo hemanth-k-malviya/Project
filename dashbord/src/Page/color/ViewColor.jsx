@@ -335,7 +335,7 @@ export default function ViewColor() {
 
                   </tbody>
                 </table>
-                <div className='w-full mx-auto mb-3 flex justify-center'>
+                <div className='w-full mx-auto m-3 flex justify-center'>
                   <ResponsivePagination
                     current={currentPage}
                     total={totalPages}

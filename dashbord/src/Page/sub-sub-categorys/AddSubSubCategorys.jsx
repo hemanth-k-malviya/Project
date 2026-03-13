@@ -185,7 +185,7 @@ export default function AddSubSubCategorys() {
                       categories.map((v, i) => {
                         return (
                           <option value={v._id}
-                            selected={v._id == setSubSubCategoryDetails.parent_category ? 'selected' : ''}>{v.name}</option>
+                            selected={v._id == subSubCategoryDetails.parent_category ? 'selected' : ''}>{v.name}</option>
                         )
 
                       })
@@ -205,7 +205,7 @@ export default function AddSubSubCategorys() {
                     {
                       subCategories.map((v, i) => {
                         return (
-                          <option value={v._id} selected={v._id == setSubSubCategoryDetails.sub_category ? 'selected' : ''}>{v.name}</option>
+                          <option value={v._id} selected={v._id == subSubCategoryDetails.sub_category ? 'selected' : ''}>{v.name}</option>
                         )
 
                       })
@@ -224,7 +224,7 @@ export default function AddSubSubCategorys() {
                   <input
                     type="text"
                     name='name'
-                    defaultValue={setSubSubCategoryDetails.name}
+                    defaultValue={subSubCategoryDetails.name}
                     id="categoryName"
                     className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3"
                     placeholder="Category Name"
@@ -242,7 +242,7 @@ export default function AddSubSubCategorys() {
                   <input
                     type="text"
                     name='order'
-                    defaultValue={setSubSubCategoryDetails.order}
+                    defaultValue={subSubCategoryDetails.order}
                     id="categoryName"
                     className="text-[19px] border-2 shadow-sm border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 px-3"
                     placeholder="Category Order"

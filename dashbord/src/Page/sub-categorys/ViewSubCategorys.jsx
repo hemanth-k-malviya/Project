@@ -358,7 +358,7 @@ export default function ViewSubCategorys() {
                                                 :
                                                 <tr class="bg-white  dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
 
-                                                    <td colSpan={6} class=" px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                                    <td colSpan={7} class=" px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
 
                                                         <div class="py-4">
                                                             <div class="text-base font-semibold text-center">No Record Found !</div>

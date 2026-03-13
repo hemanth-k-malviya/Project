@@ -92,44 +92,36 @@ export default function Profile() {
                   <input
                     type="file"
                     accept="image/*"
-                    {...register("image", { required: "Image is required" })}
                     className="dropify"
                     data-height="236"
                   />
-                  {errors.image && <p className="text-red-500">{errors.image.message}</p>}
                 </div>
                 <div className="w-2/3">
                   <div className="mb-5">
                     <label className="block  text-md font-medium text-gray-900">Name</label>
                     <input
                       type="text"
-                      {...register("name", { required: "Name is required" })}
                       className="border-2 shadow-sm border-gray-300 text-gray-900 rounded-lg w-full py-2.5 px-3"
                       placeholder="Name"
                     />
-                    {errors.name && <p className="text-red-500">{errors.name.message}</p>}
                   </div>
 
                   <div className="mb-5">
                     <label className="block  text-md font-medium text-gray-900">Email</label>
                     <input
                       type="email"
-                      {...register("email", { required: "Email is required" })}
                       className="border-2 shadow-sm border-gray-300 text-gray-900 rounded-lg w-full py-2.5 px-3"
                       placeholder="Email"
                     />
-                    {errors.email && <p className="text-red-500">{errors.email.message}</p>}
                   </div>
 
                   <div className="mb-5">
                     <label className="block  text-md font-medium text-gray-900">Mobile Number</label>
                     <input
                       type="tel"
-                      {...register("number", { required: "Mobile Number is required" })}
                       className="border-2 shadow-sm border-gray-300 text-gray-900 rounded-lg w-full py-2.5 px-3"
                       placeholder="Number"
                     />
-                    {errors.number && <p className="text-red-500">{errors.number.message}</p>}
                   </div>
                 </div>
               </div>

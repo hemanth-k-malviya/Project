@@ -68,3 +68,13 @@
   width: 0;
   height: 0;
 }
+
+/* Hide scrollbar while keeping scroll functionality */
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
