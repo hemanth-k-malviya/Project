@@ -50,7 +50,7 @@ export default function FAQS() {
             .catch(() => {
                 toast.error('Something Went Wrong !!')
             })
-    })
+    },[])
 
     const toggleFAQ = (index) => {
         setOpenIndex(openIndex === index ? null : index)

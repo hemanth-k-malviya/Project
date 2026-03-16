@@ -35,8 +35,9 @@ import Newsletters from './Page/Enquirys/Newsletters.jsx'
 import ForgotPassword from './Page/ForgotPassword.jsx'
 import ResetPassword from './Page/ResetPassword.jsx'
 import { ToastContainer } from 'react-toastify'
-import WhyAdd from './Page/why-choose-us/whyadd.jsx'
-import WhyView from './Page/why-choose-us/Whyview.jsx'
+import WhyView from './Page/why-choose-us/WhyView.jsx';
+import WhyAdd from './Page/why-choose-us/WhyAdd.jsx';
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
