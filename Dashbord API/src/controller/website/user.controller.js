@@ -446,7 +446,7 @@ exports.forgotPassword = async (request, response) => {
 
         // Create transporter (configure environment variables for Email and GMAIL_Password)
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+           host: "smtp.gmail.com",
             port: 587,
             secure: false,
             auth: {
