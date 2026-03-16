@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import Silder from './Common/Silder';
 import Image from '../../../public/images/imgi_3_124ad5ba-005d-4b47-a707-a9a87033833a-1670180400.webp';
 import ProductCard from './ProductCard';
-import BestSellingProducts from './BestSellingProducts';
 import { CiHeart } from 'react-icons/ci';
 import { BiWorld } from "react-icons/bi";
 import { BsCheck2Circle } from "react-icons/bs";
@@ -11,6 +10,7 @@ import { IoTimeOutline } from "react-icons/io5";
 import Testomonials from './Common/Testomonials';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import BestSellingProducts from './BestSellingProducts';
 
 
 export default function Home() {
@@ -91,9 +91,8 @@ export default function Home() {
                 </div>
             </div>
 
-            {/* Bestselling Products (dynamic from API) */}
-            <BestSellingProducts />
-
+            {/* Bestselling Products */}
+       <BestSellingProducts/>
             {/* policy */}
             <div className=" w-full mx-auto border border-gray-200 h-[270px] bg-gray-200 mt-10">
                 <div className="max-w-[1280px] w-full mx-auto my-1 ">

@@ -447,6 +447,8 @@ exports.forgotPassword = async (request, response) => {
         // Create transporter (configure environment variables for Email and GMAIL_Password)
         const transporter = nodemailer.createTransport({
             service: 'gmail',
+            port: 587,
+            secure: false,
             auth: {
                 user: process.env.Email,
                 pass: process.env.GMAIL_Password,
@@ -570,14 +572,14 @@ exports.resetPassword = async (request, response) => {
     }
 }
 
-exports.changeStatus =async(request, response) => {
+exports.changeStatus = async (request, response) => {
     try {
         await userModal.updateMany({
             _id: request.body.ids
         }, [{
             $set: {
-                status :{
-                    $not :"$status"
+                status: {
+                    $not: "$status"
                 }
             }
         }])

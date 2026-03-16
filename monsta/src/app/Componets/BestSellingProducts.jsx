@@ -6,9 +6,6 @@ import { CiHeart } from 'react-icons/ci';
 import { IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
-import { addToCart } from '../store/cartSlice';
-import { useRouter } from 'next/navigation';
 
 export default function BestSellingProducts() {
     const [products, setProducts] = useState([]);
@@ -18,8 +15,6 @@ export default function BestSellingProducts() {
     const sliderRef = useRef(null);
     const [wishlistIds, setWishlistIds] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const dispatch = useDispatch();
-    const router = useRouter();
 
     useEffect(() => {
         const baseUrl = (process.env.NEXT_PUBLIC_APIS_URL || '').trim();
@@ -116,14 +111,6 @@ export default function BestSellingProducts() {
         }
     };
 
-    const handleAddToCart = (event, product) => {
-        event.preventDefault();
-        event.stopPropagation();
-        dispatch(addToCart({ ...product, imagePath: imageUrl }));
-        toast.success('Added to cart');
-        router.push('/checkout');
-    };
-
     return (
         <div className="max-w-[1280px] w-full mx-auto my-1 ">
             <div className='flex my-3'>
@@ -193,10 +180,7 @@ export default function BestSellingProducts() {
                                                             </div>
 
                                                             {/* Add to Cart Button */}
-                                                            <button
-                                                                onClick={(e) => handleAddToCart(e, v)}
-                                                                className='w-full text-sm bg-gradient-to-r from-[#C09578] to-[#D9A588] text-white py-2 rounded-lg hover:shadow-lg transition-all duration-300 font-semibold hover:from-[#B0825D] hover:to-[#C09578]'
-                                                            >
+                                                            <button className='w-full text-sm bg-gradient-to-r from-[#C09578] to-[#D9A588] text-white py-2 rounded-lg hover:shadow-lg transition-all duration-300 font-semibold hover:from-[#B0825D] hover:to-[#C09578]'>
                                                                 Add To Cart
                                                             </button>
                                                         </div>
