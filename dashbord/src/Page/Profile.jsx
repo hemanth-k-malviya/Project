@@ -6,10 +6,13 @@ import $ from "jquery";
 import "dropify/dist/css/dropify.min.css";
 import "dropify/dist/js/dropify.min.js";
 import Breadcrumb from "../Comman/Breadcrumb";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Profile() {
 
   const [activeTab, setActiveTab] = useState("editProfile");
+  const token = localStorage.getItem("token");
 
 
   useEffect(() => {
@@ -33,27 +36,173 @@ export default function Profile() {
     console.log(data);
   };
 
+  const [userProfile, setUserProfile] = useState('')
+  const [userEmail, setUserEmail] = useState('');
+  const [selectedTitle, setSelectedTitle] = useState('');
+  const [updateProfile, setUpadateProfile] = useState(true)
+  const [isLoading, setisLoading] = useState(false);
+  const [imageURL, setImageUrl] = useState('');
+
+  const getProfileImageSrc = () => {
+    const file = userProfile?.image;
+    if (!file) return '';
+
+    // If API already returns a full URL, use it directly.
+    if (typeof file === "string" && file.startsWith("http")) return file;
+    if (!imageURL) return file;
+
+    const sep = imageURL.endsWith("/") ? "" : "/";
+    return `${imageURL}${sep}${file}`;
+  };
+
+  useEffect(() => {
+    const dropifyElement = $("#image");
+
+    if (dropifyElement.data("dropify")) {
+      dropifyElement.data("dropify").destroy();
+      dropifyElement.removeData("dropify");
+    }
+
+    // **Force Update Dropify Input**
+    dropifyElement.replaceWith(
+      `<input type="file" accept="image/*" name="image" id="image"
+          class="dropify" data-height="250" data-default-file="${imageURL}"/>`
+    );
+
+    // **Reinitialize Dropify**
+    $("#image").dropify();
+
+  }, [imageURL]); // ✅ Runs when `defaultImage` updates
+
+  useEffect(() => {
+    if (!token) {
+      toast.error("Please login again");
+      return;
+    }
+    axios.post(`${import.meta.env.VITE_WEBSITE_USERS}/view-profile`, {}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
+      .then((result) => {
+        if (result.data._status === true) {
+          setUserProfile(result.data._data);
+          setUserEmail(result.data._data.email);
+           setImageUrl(result.data._image_path)
+          setSelectedTitle(result.data._data.gender)
+        } else {
+          toast.error(result.data._message)
+        }
+      })
+      .catch(() => {
+        toast.error("Something went wrong !")
+      })
+  }, [updateProfile])
+
+  const updateProfileHandling = (e) => {
+    e.preventDefault()
+    if (!token) {
+      toast.error("Please login again");
+      return;
+    }
+    const formData = new FormData(e.target);
+    setisLoading(true)
+    axios.put(`${import.meta.env.VITE_WEBSITE_USERS}/update-profile`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
+    })
+      .then((result) => {
+        if (result.data._status === true) {
+          setUserProfile(result.data._data);
+          toast.success(result.data._message)
+
+          setUpadateProfile(!updateProfile)
+          setisLoading(false)
+        } else {
+          toast.error(result.data._message)
+          setisLoading(false)
+        }
+      })
+      .catch((error) => {
+        console.error("update-profile failed:", error);
+        toast.error("Something went wrong !")
+        setisLoading(false)
+      })
+  }
+
+
+  const changePassword = (e) => {
+    e.preventDefault();
+    setisLoading(true);
+
+    const formData = new FormData(e.target);
+
+    const currentPassword = formData.get("current_password");
+    const newPassword = formData.get("new_password");
+    const confirmPassword = formData.get("confirm_password");
+
+    // Basic validation
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      toast.error("All fields are required");
+      setisLoading(false);
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toast.error("Passwords do not match");
+      setisLoading(false);
+      return;
+    }
+
+    axios.put(
+      `${process.env.NEXT_PUBLIC_API_URL}/user/change-password`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          // ❗ Do NOT set Content-Type manually for FormData
+        },
+      }
+    )
+      .then((result) => {
+        if (result.data._status === true) {
+          toast.success(result.data._message);
+          e.target.reset(); // clear form
+          setisLoading(false);
+        } else {
+          toast.error(result.data._message);
+          setisLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Something went wrong!");
+        setisLoading(false);
+      })
+  };
+
   return (
     <div className="bg-[#F1F4F5]">
       <Breadcrumb path={"Profile"} />
-      
+
       <div className="w-full px-6 grid grid-cols-[30%_auto] gap-[10px] py-[20px]">
         <div className="bg-white  self-start  rounded-lg shadow-md">
           <div className="py-[40px] text-center">
             <img
               className="w-[80px] h-[80px] mx-auto rounded-full"
-              src="https://wscubetech.co/Assignments/furniture/storage/app/public/uploads/images/users/59c32aee-61e4-4868-b27c-e9339ab54e9a-1670132624.jpg"
+              src={getProfileImageSrc()}
               alt="Profile"
             />
-            <h5 className="pt-[6px]">Admin</h5>
+            <h5 className="pt-[6px]">{userProfile.name}</h5>
           </div>
           <div className="bg-[#F6F9FD] p-[20px]  rounded-lg shadow-md">
             <h4 className="py-[8px] font-bold">Contact Information</h4>
             <p className="flex items-center gap-[8px] py-[6px]">
-              <IoPhonePortrait /> 1234567890
+              <IoPhonePortrait /> {userProfile.mobile_number}
             </p>
             <p className="flex items-center gap-[8px] py-[6px]">
-              <MdEmail /> xyz@gmail.com
+              <MdEmail /> {userProfile.email}
             </p>
           </div>
         </div>
@@ -83,7 +232,7 @@ export default function Profile() {
 
           {/* Edit Profile Form */}
           {activeTab === "editProfile" && (
-            <form onSubmit={handleSubmit(onSubmit)} className="p-3">
+            <form onSubmit={updateProfileHandling} className="p-3">
               <div className="flex gap-5">
                 <div className="w-1/3">
                   <label className="block  text-md font-medium text-gray-900">
@@ -92,6 +241,8 @@ export default function Profile() {
                   <input
                     type="file"
                     accept="image/*"
+                    name="image"
+                    id="image"
                     className="dropify"
                     data-height="236"
                   />
@@ -101,8 +252,10 @@ export default function Profile() {
                     <label className="block  text-md font-medium text-gray-900">Name</label>
                     <input
                       type="text"
+                      name="name"
                       className="border-2 shadow-sm border-gray-300 text-gray-900 rounded-lg w-full py-2.5 px-3"
                       placeholder="Name"
+                      defaultValue={userProfile.name}
                     />
                   </div>
 
@@ -110,8 +263,10 @@ export default function Profile() {
                     <label className="block  text-md font-medium text-gray-900">Email</label>
                     <input
                       type="email"
+                      name="email"
                       className="border-2 shadow-sm border-gray-300 text-gray-900 rounded-lg w-full py-2.5 px-3"
                       placeholder="Email"
+                      value={userProfile.email}
                     />
                   </div>
 
@@ -119,8 +274,10 @@ export default function Profile() {
                     <label className="block  text-md font-medium text-gray-900">Mobile Number</label>
                     <input
                       type="tel"
+                      name="mobile_number"
                       className="border-2 shadow-sm border-gray-300 text-gray-900 rounded-lg w-full py-2.5 px-3"
                       placeholder="Number"
+                      defaultValue={userProfile.mobile_number}
                     />
                   </div>
                 </div>
@@ -128,9 +285,10 @@ export default function Profile() {
 
               <button
                 type="submit"
+                disabled={isLoading}
                 className="my-5 text-white bg-purple-700 hover:bg-purple-800 font-medium rounded-lg px-5 py-2.5"
               >
-                Update Profile
+                {isLoading ? "Loading..." : "Update Profile"}
               </button>
             </form>
           )}
@@ -181,6 +339,6 @@ export default function Profile() {
           )}
         </div>
       </div>
-    </div>
+    </div >
   );
 }

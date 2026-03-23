@@ -21,32 +21,32 @@ export default function Home() {
 
             {/* Chair Collection */}
 
-            <div className="w-full ">
-                <div className="max-w-[1280px] w-full mx-auto my-1 px-4">
-                    <div className='flex justify-center gap-8'>
+            <div className="w-full mt-4 sm:mt-6">
+                <div className="max-w-[1280px] w-full mx-auto px-4">
+                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8'>
 
-                        <div className='image w-[300px] h-[200px] overflow-hidden relative'>
+                        <div className='image w-full h-[200px] sm:h-[210px] overflow-hidden relative rounded-md'>
                             <img src='./images/imgi_3_124ad5ba-005d-4b47-a707-a9a87033833a-1670180400.webp' alt="" className='w-full h-full object-cover transition-transform duration-300 hover:scale-110 block' />
 
-                            <div className='absolute bottom-30 left-5'>
+                            <div className='absolute top-1/2 -translate-y-1/2 left-4 sm:left-5'>
                                 <p className='font-medium text-[14px]'>Design Creative</p>
                                 <p className='font-bold text-[18px]'>Chair Collection</p>
                             </div>
                         </div>
 
-                        <div className='image w-[300px] h-[200px] overflow-hidden relative'>
+                        <div className='image w-full h-[200px] sm:h-[210px] overflow-hidden relative rounded-md'>
                             <img src='./images/imgi_4_0d588bec-d9a0-4645-8e7a-b49ef67b34be-1670180400.webp' alt="" className='w-full h-full object-cover transition-transform duration-300 hover:scale-110 block' />
 
-                            <div className='absolute bottom-30 left-5'>
+                            <div className='absolute top-1/2 -translate-y-1/2 left-4 sm:left-5'>
                                 <p className='font-medium text-[14px]'>Bestselling Products</p>
                                 <p className='font-bold text-[18px]'>Chair Collection</p>
                             </div>
                         </div>
 
-                        <div className='image w-[300px] h-[200px] overflow-hidden relative'>
+                        <div className='image w-full h-[200px] sm:h-[210px] overflow-hidden relative rounded-md sm:col-span-2 lg:col-span-1'>
                             <img src='./images/imgi_3_124ad5ba-005d-4b47-a707-a9a87033833a-1670180400.webp' alt="" className='w-full h-full object-cover transition-transform duration-300 hover:scale-110 block' />
 
-                            <div className='absolute bottom-30 left-5'>
+                            <div className='absolute top-1/2 -translate-y-1/2 left-4 sm:left-5'>
                                 <p className='font-medium text-[14px]'>Onsale Products</p>
                                 <p className='font-bold text-[18px]'>Chair Collection</p>
                             </div>
@@ -55,79 +55,77 @@ export default function Home() {
 
                 </div>
             </div>
-            <div className='border border-gray-200 m-5'></div>
+            <div className='border border-gray-200 my-6 sm:my-8 mx-4'></div>
             {/* Chair Collection end */}
-            <div className="max-w-[1280px] w-full mx-auto my-1 px-4">
-                <div className="flex justify-center mt-10">
-                    <div className="flex border border-gray-200 ">
-                        <div
-                            onClick={() => setActiveTab('featured')}
-                            className={`px-12 py-2 text-lg font-medium border-r border-gray-300 hover:text-[#C09578] ${activeTab === 'featured' ? 'text-[#C09578]' : 'text-black'}`} >
-                            Featured
-                        </div>
-                        <div
-                            onClick={() => setActiveTab('new_arrival')}
-                            className={`px-12 py-2 text-lg font-medium -m-px hover:text-[#C09578] ${activeTab === 'new_arrival' ? 'text-[#C09578]' : 'text-black'}`}>
-                            New Arrivals
-                        </div>
-                        <div
-                            onClick={() => setActiveTab('onsale')}
-                            className={`px-12 py-2 text-lg font-medium border-l border-gray-300 hover:text-[#C09578] ${activeTab === 'onsale' ? 'text-[#C09578]' : 'text-black'}`}>
-                            Onsale
+            <div className="max-w-[1280px] w-full mx-auto px-4">
+                <div className="flex justify-center mt-6 sm:mt-8">
+                    <div className="w-full overflow-x-auto scrollbar-hidden">
+                        <div className="w-max min-w-full flex flex-nowrap border border-gray-200 rounded-md">
+                            <div
+                                onClick={() => setActiveTab('featured')}
+                                className={`px-4 sm:px-8 lg:px-12 py-2.5 text-center text-sm sm:text-lg font-medium border-r border-gray-300 hover:text-[#C09578] whitespace-nowrap cursor-pointer ${activeTab === 'featured' ? 'text-[#C09578]' : 'text-black'}`} >
+                                Featured
+                            </div>
+                            <div
+                                onClick={() => setActiveTab('new_arrival')}
+                                className={`px-4 sm:px-8 lg:px-12 py-2.5 text-center text-sm sm:text-lg font-medium border-r border-gray-300 hover:text-[#C09578] whitespace-nowrap cursor-pointer ${activeTab === 'new_arrival' ? 'text-[#C09578]' : 'text-black'}`}>
+                                New Arrivals
+                            </div>
+                            <div
+                                onClick={() => setActiveTab('onsale')}
+                                className={`px-4 sm:px-8 lg:px-12 py-2.5 text-center text-sm sm:text-lg font-medium hover:text-[#C09578] whitespace-nowrap cursor-pointer ${activeTab === 'onsale' ? 'text-[#C09578]' : 'text-black'}`}>
+                                Onsale
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <ProductCard activeTab={activeTab} />
+            <div className="mt-4 sm:mt-6">
+                <ProductCard activeTab={activeTab} />
+            </div>
 
             {/* New Trending Collection */}
-            <div className="w-full h-[500px] my-15 bg-cover bg-center bg-[url('/images/imgi_37_e9234fa4-3ff6-4a6e-a00e-0c9ff26e7b20-1670180400.jpg')]  ">
-                <div className="max-w-[1280px] w-full mx-auto my-1 relative ">
-                    <div className='absolute top-40 left-20 transition-transform duration-300 hover:scale-110 '>
-                        <p className='text-[40px] font-bold'>New Trending Collection</p>
-                        <p className='text-[18px] text-[gray]'>We Believe That Good Design is Always in Season</p>
-                        <button className='border-2 border-[#bf9070] text-[14px] text-[#bf9070] py-3 px-5 mt-17'>SHOPPING NOW</button>
+            <div className="w-full my-10 sm:my-12 bg-cover bg-center bg-[url('/images/imgi_37_e9234fa4-3ff6-4a6e-a00e-0c9ff26e7b20-1670180400.jpg')] min-h-[320px] sm:min-h-[420px] md:min-h-[500px]">
+                <div className="max-w-[1280px] w-full mx-auto relative px-4">
+                    <div className='absolute top-1/2 left-5 sm:left-10 md:left-20 -translate-y-1/2 transition-transform duration-300 hover:scale-110'>
+                        <p className='text-[28px] sm:text-[40px] font-bold leading-tight'>New Trending Collection</p>
+                        <p className='text-[14px] sm:text-[18px] text-gray-600'>We Believe That Good Design is Always in Season</p>
+                        <button className='border-2 border-[#bf9070] text-[13px] sm:text-[14px] text-[#bf9070] py-3 px-5 mt-4'>SHOPPING NOW</button>
                     </div>
                 </div>
             </div>
 
             {/* Bestselling Products */}
-       <BestSellingProducts/>
+            <BestSellingProducts />
             {/* policy */}
-            <div className=" w-full mx-auto border border-gray-200 h-[270px] bg-gray-200 mt-10">
-                <div className="max-w-[1280px] w-full mx-auto my-1 ">
-                    <div className='flex justify-evenly '>
+            <div className="w-full mx-auto border border-gray-200 bg-gray-200 mt-10 py-10">
+                <div className="max-w-[1280px] w-full mx-auto my-1 px-4">
+                    <div className='flex flex-col md:flex-row md:justify-evenly gap-8 md:gap-4'>
 
-                        <div className="w-[220px] mt-25">
-
-                            <div className="border rounded-[25px] w-[50px] h-[50px] ml-18 hover:text-[#C09578] ">
+                        <div className="w-full md:w-[220px]">
+                            <div className="border rounded-[25px] w-[50px] h-[50px] mx-auto hover:text-[#C09578]">
                                 <BiWorld className='text-[22px] m-[13.5px_13.5px]' />
                             </div>
-
-                            <p className='text-[15px] font-bold mt-3 ml-12'>Free Shipping</p>
-                            <p className='text-[15px] text-gray-600  mt-1 ml-2'>Free shipping on all order</p>
+                            <p className='text-[15px] font-bold mt-3 text-center'>Free Shipping</p>
+                            <p className='text-[15px] text-gray-600 mt-1 text-center'>Free shipping on all order</p>
                         </div>
 
-                        <div className="w-[220px] mt-25">
-
-                            <div className="border rounded-[25px] w-[50px] h-[50px] ml-18 hover:text-[#C09578]">
-                                <BsCheck2Circle className='text-[22px] m-[13.5px_13.5px] ' />
+                        <div className="w-full md:w-[220px]">
+                            <div className="border rounded-[25px] w-[50px] h-[50px] mx-auto hover:text-[#C09578]">
+                                <BsCheck2Circle className='text-[22px] m-[13.5px_13.5px]' />
                             </div>
-
-                            <p className='text-[15px] font-bold mt-3  ml-12'>Money Return</p>
-                            <p className='text-[15px] text-gray-600 mt-1 ml-2'>Back guarantee under 7 days</p>
+                            <p className='text-[15px] font-bold mt-3 text-center'>Money Return</p>
+                            <p className='text-[15px] text-gray-600 mt-1 text-center'>Back guarantee under 7 days</p>
                         </div>
 
-                        <div className="w-[220px] mt-25 ">
-
-                            <div className="border rounded-[25px] w-[50px] h-[50px] ml-18 hover:text-[#C09578]">
+                        <div className="w-full md:w-[220px]">
+                            <div className="border rounded-[25px] w-[50px] h-[50px] mx-auto hover:text-[#C09578]">
                                 <IoTimeOutline className='text-[22px] m-[13.5px_13.5px]' />
                             </div>
-                            <p className='text-[15px] font-bold mt-3 ml-12'>Online Support</p>
-                            <p className='text-[15px] text-gray-600 mt-1 ml-1 '>Support online 24 hours a day</p>
+                            <p className='text-[15px] font-bold mt-3 text-center'>Online Support</p>
+                            <p className='text-[15px] text-gray-600 mt-1 text-center'>Support online 24 hours a day</p>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -135,13 +133,20 @@ export default function Home() {
             <Testomonials />
 
             {/* Our Newsletter */}
-            <div className=" w-full mx-auto border border-gray-200 h-[270px] bg-gray-200 mt-10">
-                <div className="max-w-[1280px] w-full mx-auto my-1 ">
-                    <h2 className="text-4xl font-bold text-center mt-20">Our Newsletter </h2>
-                    <p className='text-[15px] text-gray-600 text-center mt-2'>Get E-mail updates about our latest shop and special offers.</p>
-                    <div className="mx-79 mt-8">
-                        <input type="text" placeholder='Email Address....' required className='border w-120 h-10 px-4 border border-gray-400 text-gray-600  outline-none' />
-                        <button className=' h-10 px-10 mx-2 bg-[#C09578] text-white hover:bg-black'>Subscribe</button>
+            <div className="w-full mx-auto border border-gray-200 bg-gray-200 mt-10 py-12">
+                <div className="max-w-[1280px] w-full mx-auto my-1 px-4">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center">Our Newsletter</h2>
+                    <p className='text-[14px] sm:text-[15px] text-gray-600 text-center mt-2'>Get E-mail updates about our latest shop and special offers.</p>
+                    <div className="mt-8 max-w-xl mx-auto">
+                        <div className="flex flex-col sm:flex-row gap-3">
+                            <input
+                                type="text"
+                                placeholder='Email Address....'
+                                required
+                                className='border w-full h-11 px-4 border-gray-400 text-gray-600 outline-none rounded-md'
+                            />
+                            <button className='h-11 px-8 bg-[#C09578] text-white hover:bg-black rounded-md'>Subscribe</button>
+                        </div>
                     </div>
                 </div>
             </div>

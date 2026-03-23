@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { useRazorpay, RazorpayOrderOptions } from "react-razorpay";
 import { useDispatch, useSelector } from 'react-redux';
 import { clearCart } from '../store/cartSlice';
+import { useRouter } from 'next/navigation';
 
 export default function Checkout() {
     const [currentStep, setCurrentStep] = useState(1);
@@ -17,6 +18,7 @@ export default function Checkout() {
     const [buttonLoading, setButtonLoading] = useState(false)
     const { error, isLoading, Razorpay } = useRazorpay();
     const dispatch = useDispatch();
+    const router = useRouter();
     const [formData, setFormData] = useState({
         first_name: '',
         last_name: '',
@@ -117,7 +119,7 @@ export default function Checkout() {
                     razorpay_payment_id: response.razorpay_payment_id,
                 };
 
-                orderStatusUpdate(paymentResponse);
+                orderStatusUpdate(paymentResponse, true);
                 toast.success("Payment Successful!");
             },
             prefill: {
@@ -141,13 +143,13 @@ export default function Checkout() {
                 razorpay_payment_id: response.error.metadata.payment_id
             };
 
-            orderStatusUpdate(paymentResponse);
+            orderStatusUpdate(paymentResponse, false);
         });
 
         razorpayInstance.open();
     }
 
-    const orderStatusUpdate = (paymentResponse) => {
+    const orderStatusUpdate = (paymentResponse, isPaymentSuccess = false) => {
         axios.post(`${process.env.NEXT_PUBLIC_API_URL}/order/order-status`, paymentResponse, {
             headers: {
                 Authorization: `Bearer ${Cookies.get('user_login')}`
@@ -158,7 +160,10 @@ export default function Checkout() {
                 setButtonLoading(false);
 
                 // Clear cart after backend confirms payment status update
-                dispatch(clearCart());
+                if (isPaymentSuccess) {
+                    dispatch(clearCart());
+                    router.push('/');
+                }
             })
             .catch((error) => {
                 console.log(error)

@@ -10,7 +10,7 @@ module.exports = server => {
 
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, 'uploads/categories')
+            cb(null, 'uploads/users')
         },
         filename: function (req, file, cb) {
             extension = (path.extname(file.originalname))

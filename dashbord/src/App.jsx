@@ -36,10 +36,10 @@ return (
   <>
     <section class="bg-gray-50 dark:bg-gray-900">
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-          <img class="w-[400px] h-[110px]" src="https://mastercoach.in/wp-content/uploads/2021/09/header_logo.png" alt="logo" />
-
-        </a>
+        
+        <div class="flex items-center justify-center mb-6 text-2xl font-semibold text-gray-900 dark:text-gray-900 bg-white rounded-xl px-6 py-4 shadow-sm border border-gray-100">
+          <img class="w-[400px] h-[110px] object-contain" src="/image/logo.png" alt="logo" />
+        </div>
         <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">

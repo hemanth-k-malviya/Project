@@ -148,7 +148,7 @@ export default function ProductCard({ activeTab = 'featured' }) {
                         {/* Previous Button */}
                         <button
                             onClick={handlePrevSlide}
-                            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-gradient-to-r from-[#C09578] to-[#D9A588] text-white p-3 rounded-full hover:shadow-lg transition-all hover:-translate-x-5 group"
+                            className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-gradient-to-r from-[#C09578] to-[#D9A588] text-white p-3 rounded-full hover:shadow-lg transition-all hover:-translate-x-5 group"
                             aria-label="Previous products"
                         >
                             <IoChevronBackOutline size={24} className="group-hover:scale-110 transition" />
@@ -227,7 +227,7 @@ export default function ProductCard({ activeTab = 'featured' }) {
                         {/* Next Button */}
                         <button
                             onClick={handleNextSlide}
-                            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-gradient-to-r from-[#D9A588] to-[#C09578] text-white p-3 rounded-full hover:shadow-lg transition-all hover:translate-x-5 group"
+                            className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-gradient-to-r from-[#D9A588] to-[#C09578] text-white p-3 rounded-full hover:shadow-lg transition-all hover:translate-x-5 group"
                             aria-label="Next products"
                         >
                             <IoChevronForwardOutline size={24} className="group-hover:scale-110 transition" />

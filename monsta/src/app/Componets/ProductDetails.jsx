@@ -57,37 +57,37 @@ export default function ProductDetails({ id: idProp }) {
     return (
         <>
             <div className="max-w-[1280px] w-full mx-auto my-1 px-4">
-                <p className='text-[40px] font-bold text-center'>{productDetails.name}</p>
-                <div className='flex justify-center' >
+                <p className='text-[28px] sm:text-[34px] md:text-[40px] font-bold text-center'>{productDetails.name}</p>
+                <div className='flex justify-center flex-wrap text-center' >
                     <p className="text-[16px] hover:text-[#C09578]"> Home </p>
                     <p className="text-[16px] text-[#C09578] px-1"><IoIosArrowForward className='mt-1.5' /></p>
                     <p className="text-[16px] text-[#C09578]">{productDetails.name}</p>
                 </div>
 
                 {/* border */}
-                <div className='border border-gray-200 m-8'></div>
+                <div className='border border-gray-200 my-6 sm:my-8'></div>
 
-                <div className='grid grid-cols-2 gap-6'>
+                <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8'>
                     <div className="">
-                        <img src={`${imageUrl}${productDetails.image}`} alt={productDetails.name} />
-                        <div className='grid grid-cols-6 gap-2 ml-17 mt-4'>
-                            <img src={`${imageUrl}${productDetails.image}`} alt="" className='w-30 h-18' />
-                            <img src={`${imageUrl}${productDetails.image}`} alt="" className='w-30 h-18' />
-                            <img src={`${imageUrl}${productDetails.image}`} alt="" className='w-30 h-18' />
-                            <img src={`${imageUrl}${productDetails.image}`} alt="" className='w-30 h-18' />
-                            <img src={`${imageUrl}${productDetails.image}`} alt="" className='w-30 h-18' />
+                        <img src={`${imageUrl}${productDetails.image}`} alt={productDetails.name} className="w-full rounded-md object-cover" />
+                        <div className='grid grid-cols-3 sm:grid-cols-5 gap-2 mt-4'>
+                            <img src={`${imageUrl}${productDetails.image}`} alt="" className='w-full h-20 sm:h-24 object-cover rounded-md' />
+                            <img src={`${imageUrl}${productDetails.image}`} alt="" className='w-full h-20 sm:h-24 object-cover rounded-md' />
+                            <img src={`${imageUrl}${productDetails.image}`} alt="" className='w-full h-20 sm:h-24 object-cover rounded-md' />
+                            <img src={`${imageUrl}${productDetails.image}`} alt="" className='w-full h-20 sm:h-24 object-cover rounded-md' />
+                            <img src={`${imageUrl}${productDetails.image}`} alt="" className='w-full h-20 sm:h-24 object-cover rounded-md' />
                         </div>
                     </div>
 
                     <div className="">
-                        <h4 className='py-2 font-semibold text-[25px]'>{productDetails.name}</h4>
+                        <h4 className='py-2 font-semibold text-[22px] sm:text-[25px]'>{productDetails.name}</h4>
                         <p className='py-2'><del className='text-gray-400'>Rs.{productDetails.actual_price}</del> <span className='text-[#C09578] font-bold'>Rs.{productDetails.sale_price}</span></p>
                         <p className='text-[15px] text-gray-700'>{productDetails.short_description}</p>
 
                         {/* border */}
                         <div className='border border-gray-200 my-5'></div>
 
-                        <button type="submit" className='bg-[#C09578] hover:bg-black text-white rounded px-15 py-2 my-3'>Add To Cart</button>
+                        <button type="submit" className='bg-[#C09578] hover:bg-black text-white rounded px-8 sm:px-10 py-2 my-3'>Add To Cart</button>
                         <p className='text-[15px] font-semibold py-1'>Code : <span className='mr-2 text-gray-600'>{productDetails.code}</span></p>
                         <p className='text-[15px] font-semibold py-1'>Dimension : <span className='mr-2 text-gray-700 '>{productDetails.dimension}</span></p>
                         <p className='text-[15px] font-semibold py-1'>Estimate Delivery Days : <span className='mr-2 text-gray-700 '>{productDetails.estimate_delivery_days}</span></p>
@@ -133,7 +133,7 @@ export default function ProductDetails({ id: idProp }) {
                     </div>
                 </div>
                 <div className="">
-                    <p className='text-[30px] text-[#C09578] font-semibold mt-5'>Description</p>
+                    <p className='text-[24px] sm:text-[30px] text-[#C09578] font-semibold mt-5'>Description</p>
                     {/* border */}
                     <div className='border border-gray-200 my-2'></div>
                     <p className='text-[15px] text-gray-700'>{productDetails.description}</p>
@@ -141,9 +141,9 @@ export default function ProductDetails({ id: idProp }) {
 
                 {/* Related products */}
                 <div className="max-w-[1280px] w-full mx-auto my-10 ">
-                    <div className='flex'>
-                        <p className='text-[30px] font-bold '>Related Products</p>
-                        <div className='w-[940px] border-b-1 border-gray-300 mb-5 ml-2'></div>
+                    <div className='flex items-end gap-3'>
+                        <p className='text-[24px] sm:text-[30px] font-bold whitespace-nowrap'>Related Products</p>
+                        <div className='flex-1 border-b border-gray-300 mb-2'></div>
                     </div>
 
                     <ProductCard />

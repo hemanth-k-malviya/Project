@@ -29,6 +29,7 @@ export default function OnlineStore() {
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(200000);
     const [sortBy, setSortBy] = useState('default'); // 'price_asc' | 'price_desc' | 'name_asc' | 'name_desc'
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     const categoryGroups = React.useMemo(() => {
         const source =
@@ -309,7 +310,7 @@ export default function OnlineStore() {
     return (
         <>
             <div className="max-w-[1280px] w-full mx-auto my-1 px-4">
-                <p className='text-[40px] font-bold text-center'>Online Store</p>
+                <p className='text-[28px] sm:text-[34px] md:text-[40px] font-bold text-center'>Online Store</p>
                 <div className='flex justify-center' >
                     <Link href={'/'}><p className="text-[16px] hover:text-[#C09578]"> Home </p></Link>
                     <p className="text-[16px] text-[#C09578] px-1"><IoIosArrowForward className='mt-1.5' /></p>
@@ -319,28 +320,175 @@ export default function OnlineStore() {
                 {/* border */}
                 <div className='border border-gray-200 m-8'></div>
 
+                {isFilterOpen && (
+                    <div className="fixed inset-0 z-[60] lg:hidden">
+                        <div
+                            className="absolute inset-0 bg-black/40"
+                            onClick={() => setIsFilterOpen(false)}
+                        />
+                        <div className="absolute right-0 top-0 h-full w-[85vw] max-w-[360px] bg-white shadow-lg overflow-y-auto">
+                            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+                                <p className="font-bold text-gray-800">Filters</p>
+                                <button
+                                    type="button"
+                                    onClick={() => setIsFilterOpen(false)}
+                                    className="px-3 py-1 border border-gray-300 rounded-md hover:border-[#C09578] hover:text-[#C09578] transition-colors font-semibold"
+                                >
+                                    Close
+                                </button>
+                            </div>
+
+                            <div className="p-3 sm:p-4">
+                                <div className="overflow-visible">
+                                    <p className='text-[18px] sm:text-[22px] font-bold text-center my-4'>Categories</p>
+
+                                    {/* Tables */}
+                                    {categoryGroups.map((group) => (
+                                        <div key={group.parentId} className="mb-4">
+                                            <p className='text-[16px] sm:text-[18px] font-bold text-gray-700 my-3'>
+                                                {group.parentName}
+                                            </p>
+                                            {group.subs.map((sub) => (
+                                                <div key={sub._id} className="flex items-center mb-2 gap-2">
+                                                    <input
+                                                        id={sub._id}
+                                                        checked={filterSubCategories.includes(sub._id)}
+                                                        onChange={() => filterSubCategory(sub._id)}
+                                                        type="checkbox"
+                                                        className='w-4 h-4 cursor-pointer'
+                                                    />
+                                                    <p className='text-[14px] sm:text-[15px] text-gray-600 cursor-pointer hover:text-[#C09578]'>
+                                                        {sub.name}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Material */}
+                                <div className="mb-4">
+                                    <p className='text-[16px] sm:text-[18px] font-bold text-gray-700 my-3'>Material</p>
+                                    {material.length > 0 &&
+                                        material.map((v) => (
+                                            <div key={v._id} className="flex items-center mb-2 gap-2">
+                                                <input
+                                                    type="checkbox"
+                                                    className="w-4 h-4 cursor-pointer"
+                                                    checked={filterMaterial.includes(v._id)}
+                                                    onChange={() => filteMaterials(v._id)}
+                                                />
+                                                <p className="text-[14px] sm:text-[15px] text-gray-600 cursor-pointer hover:text-[#C09578]">
+                                                    {v.name}
+                                                </p>
+                                            </div>
+                                        ))}
+                                </div>
+
+                                {/* Color */}
+                                <div className="mb-4">
+                                    <p className='text-[16px] sm:text-[18px] font-bold text-gray-700 my-3'>Color</p>
+                                    {color.length > 0 &&
+                                        color.map((v) => (
+                                            <div key={v._id} className="flex items-center mb-2 gap-2">
+                                                <input
+                                                    type="checkbox"
+                                                    className="w-4 h-4 cursor-pointer"
+                                                    checked={filterColors.includes(v._id)}
+                                                    onChange={() => handleFilterColors(v._id)}
+                                                />
+                                                <p className="text-[14px] sm:text-[15px] text-gray-600 cursor-pointer hover:text-[#C09578]">
+                                                    {v.name}
+                                                </p>
+                                            </div>
+                                        ))}
+                                </div>
+
+                                {/* Filter by price */}
+                                <div className="mb-4">
+                                    <p className='text-[16px] sm:text-[18px] font-bold text-gray-700 my-3'>Filter by Price</p>
+                                    <div className="px-0 sm:px-2">
+                                        <div className="mb-3">
+                                            <input
+                                                type="range"
+                                                min="0"
+                                                max="200000"
+                                                step="1000"
+                                                value={maxPrice}
+                                                onChange={(e) => setMaxPrice(Number(e.target.value) || 0)}
+                                                className='w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#C09578]'
+                                            />
+                                        </div>
+                                        <div className="flex items-center justify-between gap-2 mb-2">
+                                            <div className="flex-1">
+                                                <label className='text-[12px] text-gray-500 mb-1 block'>Min Price</label>
+                                                <input
+                                                    type="number"
+                                                    min="0"
+                                                    max={maxPrice}
+                                                    value={minPrice}
+                                                    onChange={(e) => {
+                                                        const val = Number(e.target.value) || 0;
+                                                        setMinPrice(val < 0 ? 0 : val > maxPrice ? maxPrice : val);
+                                                    }}
+                                                    className='w-full border border-gray-300 rounded px-2 py-1 text-sm outline-none focus:ring-2 focus:ring-[#C09578]'
+                                                />
+                                            </div>
+                                            <div className="flex-1">
+                                                <label className='text-[12px] text-gray-500 mb-1 block'>Max Price</label>
+                                                <input
+                                                    type="number"
+                                                    min={minPrice}
+                                                    max="200000"
+                                                    value={maxPrice}
+                                                    onChange={(e) => {
+                                                        const val = Number(e.target.value) || 0;
+                                                        const clamped = val < minPrice ? minPrice : val > 200000 ? 200000 : val;
+                                                        setMaxPrice(clamped);
+                                                    }}
+                                                    className='w-full border border-gray-300 rounded px-2 py-1 text-sm outline-none focus:ring-2 focus:ring-[#C09578]'
+                                                />
+                                            </div>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                setCurrentPage(1);
+                                                setIsFilterOpen(false);
+                                            }}
+                                            className='w-full bg-[#C09578] hover:bg-[#ad8060] text-white rounded px-4 py-2 text-sm transition-colors'
+                                        >
+                                            Apply Filter
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 <div className="grid lg:grid-cols-[25%_75%] grid-cols-1 gap-6 my-8">
                     {/* Sidebar - Categories */}
-                    <div className=" p-4">
-                        <div className=" overflow-y-auto">
-                            <p className='text-[24px] font-bold text-center my-4'>Categories</p>
+                    <div className="hidden lg:block p-3 sm:p-4 min-w-0 w-full">
+                        <div className="overflow-visible lg:overflow-y-auto lg:max-h-[70vh]">
+                            <p className='text-[18px] sm:text-[22px] font-bold text-center my-4'>Categories</p>
 
                             {/* Tables */}
                             {categoryGroups.map((group) => (
                                 <div key={group.parentId} className="mb-4">
-                                    <p className='text-[18px] font-bold text-gray-700 mx-2 my-3'>
+                                    <p className='text-[16px] sm:text-[18px] font-bold text-gray-700 my-3'>
                                         {group.parentName}
                                     </p>
                                     {group.subs.map((sub) => (
-                                        <div key={sub._id} className="flex items-center mb-2">
+                                        <div key={sub._id} className="flex items-center mb-2 gap-2">
                                             <input
                                                 id={sub._id}
                                                 checked={filterSubCategories.includes(sub._id)}
                                                 onChange={() => filterSubCategory(sub._id)}
                                                 type="checkbox"
-                                                className='w-4 h-4 mx-2 cursor-pointer'
+                                                className='w-4 h-4 cursor-pointer'
                                             />
-                                            <p className='text-[15px] text-gray-600 cursor-pointer hover:text-[#C09578]'>
+                                            <p className='text-[14px] sm:text-[15px] text-gray-600 cursor-pointer hover:text-[#C09578]'>
                                                 {sub.name}
                                             </p>
                                         </div>
@@ -351,18 +499,18 @@ export default function OnlineStore() {
 
                         {/* Material */}
                         <div className="mb-4">
-                            <p className='text-[18px] font-bold text-gray-700 mx-2 my-3'>Material</p>
+                            <p className='text-[16px] sm:text-[18px] font-bold text-gray-700 my-3'>Material</p>
 
                             {material.length > 0 &&
                                 material.map((v) => (
-                                    <div key={v._id} className="flex items-center mb-2">
+                                    <div key={v._id} className="flex items-center mb-2 gap-2">
                                         <input
                                             type="checkbox"
-                                            className="w-4 h-4 mx-2 cursor-pointer"
+                                            className="w-4 h-4 cursor-pointer"
                                             checked={filterMaterial.includes(v._id)}
                                             onChange={() => filteMaterials(v._id)}
                                         />
-                                        <p className="text-[15px] text-gray-600 cursor-pointer hover:text-[#C09578]">
+                                        <p className="text-[14px] sm:text-[15px] text-gray-600 cursor-pointer hover:text-[#C09578]">
                                             {v.name}
                                         </p>
                                     </div>
@@ -372,17 +520,17 @@ export default function OnlineStore() {
 
                         {/* Color */}
                         <div className="mb-4">
-                            <p className='text-[18px] font-bold text-gray-700 mx-2 my-3'>Color</p>
+                            <p className='text-[16px] sm:text-[18px] font-bold text-gray-700 my-3'>Color</p>
                             {color.length > 0 &&
                                 color.map((v) => (
-                                    <div key={v._id} className="flex items-center mb-2">
+                                    <div key={v._id} className="flex items-center mb-2 gap-2">
                                         <input
                                             type="checkbox"
-                                            className="w-4 h-4 mx-2 cursor-pointer"
+                                            className="w-4 h-4 cursor-pointer"
                                             checked={filterColors.includes(v._id)}
                                             onChange={() => handleFilterColors(v._id)}
                                         />
-                                        <p className="text-[15px] text-gray-600 cursor-pointer hover:text-[#C09578]">
+                                        <p className="text-[14px] sm:text-[15px] text-gray-600 cursor-pointer hover:text-[#C09578]">
                                             {v.name}
                                         </p>
                                     </div>
@@ -392,8 +540,8 @@ export default function OnlineStore() {
 
                         {/* Filter by price */}
                         <div className="mb-4">
-                            <p className='text-[18px] font-bold text-gray-700 mx-2 my-3'>Filter by Price</p>
-                            <div className="px-2">
+                            <p className='text-[16px] sm:text-[18px] font-bold text-gray-700 my-3'>Filter by Price</p>
+                            <div className="px-0 sm:px-2">
                                 <div className="mb-3">
                                     <input
                                         type="range"
@@ -438,7 +586,10 @@ export default function OnlineStore() {
                                 </div>
                                 <button
                                     type="button"
-                                    onClick={() => setCurrentPage(1)}
+                                    onClick={() => {
+                                        setCurrentPage(1);
+                                        setIsFilterOpen(false);
+                                    }}
                                     className='w-full bg-[#C09578] hover:bg-[#ad8060] text-white rounded px-4 py-2 text-sm transition-colors'
                                 >
                                     Apply Filter
@@ -453,6 +604,15 @@ export default function OnlineStore() {
                             <div className="flex justify-between items-center mb-4 mt-4">
                                 <p className='text-[24px] font-bold'>Products</p>
                                 <div className="flex items-center gap-2">
+                                    <button
+                                        type="button"
+                                        className="lg:hidden px-3 py-2 border border-gray-300 rounded-md text-sm font-semibold hover:border-[#C09578] hover:text-[#C09578] transition-colors"
+                                        onClick={() => setIsFilterOpen(true)}
+                                    >
+                                        Filter
+                                    </button>
+
+                                    <div className="hidden sm:flex items-center gap-2">
                                     <select
                                         className="border border-gray-300 rounded px-3 py-2 outline-none focus:ring-2 focus:ring-[#C09578]"
                                         value={sortBy}
@@ -464,10 +624,11 @@ export default function OnlineStore() {
                                         <option value="name_asc">Name: A to Z</option>
                                         <option value="name_desc">Name: Z to A</option>
                                     </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div className=" overflow-y-auto">
+            <div className="overflow-visible lg:overflow-y-auto lg:max-h-[70vh]">
                             <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4'>
                                 {
                                     displayedProducts.length > 0
@@ -476,14 +637,17 @@ export default function OnlineStore() {
                                             const productId = v._id || v.id;
                                             const isInWishlist = wishlistIds.includes(productId);
                                             return (
-                                                <div key={productId || i} className="w-full h-[400px] border border-gray-200 rounded shadow-lg hover:shadow-xl transition-shadow mt-2">
+                                                <div
+                                                    key={productId || i}
+                                                    className="w-full border border-gray-200 rounded shadow-lg hover:shadow-xl transition-shadow mt-2 min-h-[320px] sm:min-h-[360px] lg:min-h-[400px] flex flex-col"
+                                                >
                                                     <Link href={`/products-details/${productId}`}>
                                                         {v.image
-                                                            ? <img className='w-full h-[200px] object-cover' alt={v.name || 'Product'} src={`${imageUrl}${v.image}`} />
-                                                            : <div className="w-full h-[200px] bg-gray-100 flex items-center justify-center text-gray-400">N/A</div>
+                                                            ? <img className='w-full h-[160px] sm:h-[190px] lg:h-[200px] object-cover' alt={v.name || 'Product'} src={`${imageUrl}${v.image}`} />
+                                                            : <div className="w-full h-[160px] sm:h-[190px] lg:h-[200px] bg-gray-100 flex items-center justify-center text-gray-400">N/A</div>
                                                         }
                                                         {/* <img src={v.image} className='w-full h-[200px] object-cover' alt="Product" /> */}
-                                                        <div className="text-center p-3">
+                                                        <div className="text-center p-3 flex-1 flex flex-col justify-between">
                                                             <p className='py-2 text-gray-600 text-sm'>{v?.sub_category?.name || 'Product'}</p>
                                                             <h4 className='py-2 font-semibold'>{v.name}</h4>
                                                             <p className='py-2'><del className='text-gray-400'>Rs.{v.actual_price}</del> <span className='text-[#C09578] font-bold'>Rs.{v.sale_price}</span></p>
@@ -492,14 +656,14 @@ export default function OnlineStore() {
                                                     <div className="flex gap-1 justify-center px-4 pb-3">
                                                         <button
                                                             onClick={(e) => handleAddToWishlist(e, v)}
-                                                            className='text-[30px] bg-gray-100 p-1 rounded hover:bg-[#C09578] hover:text-white cursor-pointer transition-colors'
+                                                            className='text-[26px] sm:text-[30px] bg-gray-100 p-1 rounded hover:bg-[#C09578] hover:text-white cursor-pointer transition-colors'
                                                             aria-label="Add to wishlist"
                                                         >
                                                             <CiHeart className={isInWishlist ? 'text-red-500' : ''} />
                                                         </button>
                                                         <button
                                                             onClick={(e) => handleAddToCart(e, v)}
-                                                            className='text-[14px] bg-gray-100 px-4 py-1 text-gray-600 hover:bg-[#C09578] hover:text-white cursor-pointer rounded transition-colors'>Add To Cart</button>
+                                                            className='text-[14px] bg-gray-100 px-3 sm:px-4 py-1 text-gray-600 hover:bg-[#C09578] hover:text-white cursor-pointer rounded transition-colors whitespace-nowrap'>Add To Cart</button>
                                                     </div>
                                                 </div>
                                             )

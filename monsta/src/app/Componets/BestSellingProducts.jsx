@@ -112,10 +112,10 @@ export default function BestSellingProducts() {
     };
 
     return (
-        <div className="max-w-[1280px] w-full mx-auto my-1 ">
-            <div className='flex my-3'>
-                <p className='text-[30px] font-bold '>Bestselling Products</p>
-                <div className='w-[940px] border-b-1 border-gray-300 mb-5 mr-1'></div>
+        <div className="max-w-[1280px] w-full mx-auto my-1 px-4">
+            <div className='flex items-end gap-3 my-3'>
+                <p className='text-[24px] sm:text-[30px] font-bold whitespace-nowrap'>Bestselling Products</p>
+                <div className='flex-1 border-b border-gray-300 mb-2'></div>
             </div>
 
             {/* Slider Container */}
@@ -123,7 +123,7 @@ export default function BestSellingProducts() {
                 {/* Previous Button */}
                 <button
                     onClick={handlePrevSlide}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-gradient-to-r from-[#C09578] to-[#D9A588] text-white p-3 rounded-full hover:shadow-lg transition-all hover:-translate-x-5 group"
+                    className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-gradient-to-r from-[#C09578] to-[#D9A588] text-white p-3 rounded-full hover:shadow-lg transition-all hover:-translate-x-5 group"
                     aria-label="Previous products"
                 >
                     <IoChevronBackOutline size={24} className="group-hover:scale-110 transition" />
@@ -134,7 +134,7 @@ export default function BestSellingProducts() {
                     ref={sliderRef}
                     className="products-slider overflow-x-auto scrollbar-hidden scroll-smooth"
                 >
-                    <div className="flex gap-4 w-min">
+                    <div className="flex gap-3 sm:gap-4 w-max">
                         {loading
                             ? (
                                 <div className="flex items-center justify-center gap-4 py-12 w-full">
@@ -153,11 +153,11 @@ export default function BestSellingProducts() {
                                         const productId = v._id || v.id;
                                         const isInWishlist = wishlistIds.includes(productId);
                                         return (
-                                            <div key={productId || i} className="flex-shrink-0 w-80">
+                                            <div key={productId || i} className="flex-shrink-0 w-[260px] sm:w-[300px] lg:w-80">
                                                 <Link href={`/products-details/${productId}`}>
-                                                    <div className="w-full h-[420px] border-2 border-gray-200 rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-white group">
+                                                    <div className="w-full min-h-[360px] sm:min-h-[400px] h-auto border-2 border-gray-200 rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-white group flex flex-col">
                                                         {/* Image Container */}
-                                                        <div className="relative w-full h-[240px] bg-gray-100 rounded-t-lg overflow-hidden">
+                                                        <div className="relative w-full h-[180px] sm:h-[220px] lg:h-[240px] bg-gray-100 rounded-t-lg overflow-hidden">
                                                             {v.image
                                                                 ? <img className='w-full h-full object-cover group-hover:scale-110 transition-transform duration-300' alt={v.name} src={`${imageUrl}${v.image}`} />
                                                                 : <div className="w-full h-full flex items-center justify-center text-gray-400">No Image</div>
@@ -172,15 +172,15 @@ export default function BestSellingProducts() {
                                                         </div>
 
                                                         {/* Product Info */}
-                                                        <div className="p-1 flex flex-col h-[180px]">
+                                                        <div className="p-2 sm:p-3 flex flex-col flex-1">
                                                             <div className="text-center p-1">
-                                                                <p className='py-2 text-gray-600 text-sm'>{v?.parent_category?.name || 'Product'}</p>
-                                                                <h4 className='py-2 font-semibold'>{v.name}</h4>
-                                                                <p className='py-2'><del className='text-gray-400'>Rs. {v.actual_price}</del> <span className='text-[#C09578] font-bold'>Rs.{v.sale_price}</span></p>
+                                                                <p className='py-1 text-gray-600 text-xs sm:text-sm'>{v?.parent_category?.name || 'Product'}</p>
+                                                                <h4 className='py-1 font-semibold line-clamp-2 min-h-[48px]'>{v.name}</h4>
+                                                                <p className='py-1 text-sm'><del className='text-gray-400'>Rs. {v.actual_price}</del> <span className='text-[#C09578] font-bold'>Rs.{v.sale_price}</span></p>
                                                             </div>
 
                                                             {/* Add to Cart Button */}
-                                                            <button className='w-full text-sm bg-gradient-to-r from-[#C09578] to-[#D9A588] text-white py-2 rounded-lg hover:shadow-lg transition-all duration-300 font-semibold hover:from-[#B0825D] hover:to-[#C09578]'>
+                                                            <button className='mt-auto w-full text-sm bg-gradient-to-r from-[#C09578] to-[#D9A588] text-white py-2 rounded-lg hover:shadow-lg transition-all duration-300 font-semibold hover:from-[#B0825D] hover:to-[#C09578]'>
                                                                 Add To Cart
                                                             </button>
                                                         </div>
@@ -201,7 +201,7 @@ export default function BestSellingProducts() {
                 {/* Next Button */}
                 <button
                     onClick={handleNextSlide}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-gradient-to-r from-[#D9A588] to-[#C09578] text-white p-3 rounded-full hover:shadow-lg transition-all hover:translate-x-5 group"
+                    className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-gradient-to-r from-[#D9A588] to-[#C09578] text-white p-3 rounded-full hover:shadow-lg transition-all hover:translate-x-5 group"
                     aria-label="Next products"
                 >
                     <IoChevronForwardOutline size={24} className="group-hover:scale-110 transition" />

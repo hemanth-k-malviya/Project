@@ -11,7 +11,7 @@ export default function page() {
     return (
         <>
             <div className="max-w-[1280px] w-full mx-auto my-1 px-4">
-                <p className='text-[40px] font-bold text-center'> Term of Use</p>
+                <p className='text-[28px] sm:text-[34px] md:text-[40px] font-bold text-center'> Term of Use</p>
                 <div className='flex justify-center' >
                     <p className="text-[16px] hover:text-[#C09578]"> Home </p>
                     <p className="text-[16px] text-[#C09578] px-1"><IoIosArrowForward className='mt-1.5' /></p>

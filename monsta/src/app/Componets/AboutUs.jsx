@@ -10,7 +10,7 @@ export default function AboutUs() {
   return (
     <>
       <div className="max-w-[1280px] w-full mx-auto my-1 px-4">
-        <p className='text-[40px] font-bold text-center'> AboutUs</p>
+        <p className='text-[28px] sm:text-[34px] md:text-[40px] font-bold text-center'> AboutUs</p>
         <div className='flex justify-center' >
            <Link href={'/'}><p className="text-[16px] hover:text-[#C09578]"> Home </p></Link> 
           <p className="text-[16px] text-[#C09578] px-1"><IoIosArrowForward className='mt-1.5' /></p>
@@ -33,16 +33,16 @@ export default function AboutUs() {
 
         {/* Why chose us */}
         <div>
-          <p className='text-[40px] font-bold text-center'> Why chose us?</p>
+          <p className='text-[28px] sm:text-[34px] md:text-[40px] font-bold text-center'> Why chose us?</p>
           <div className="grid grid-cols-3 gap-2 my-5">
             <div className="mt-25">
-              <IoHomeOutline className="text-[40px] text-[#C09578] mx-45 my-3" />
+              <IoHomeOutline className="text-[28px] sm:text-[34px] md:text-[40px] text-[#C09578] mx-45 my-3" />
               <p className="text-[16px] font-bold text-center">100% Money Back Guarantee</p>
               <p className='text-[15px] text-gray-600 text-center m-2'>Erat metus sodales eget dolor consectetuer, porta ut purus at et alias, nulla ornare velit amet enim</p>
             </div>
 
             <div className="mt-25">
-              <IoPeopleOutline className="text-[40px] text-[#C09578] mx-45 my-3" />
+              <IoPeopleOutline className="text-[28px] sm:text-[34px] md:text-[40px] text-[#C09578] mx-45 my-3" />
               <p className="text-[16px] font-bold text-center">Online Support 24/7</p>
               <p className='text-[15px] text-gray-600 text-center m-2'>Erat metus sodales eget dolor consectetuer, porta ut purus at et alias, nulla ornare velit amet enim</p>
             </div>
