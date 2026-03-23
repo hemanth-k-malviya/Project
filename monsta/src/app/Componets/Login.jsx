@@ -14,7 +14,9 @@ import { setToken } from '../store/authSlice';
 export default function Login() {
     const [registerLoading, setRegisterLoading] = useState(false);
     const [loginLoading, setLoginLoading] = useState(false);
-    const [show, setShow] = useState(false);
+    const [showLoginPassword, setShowLoginPassword] = useState(false);
+    const [showRegisterPassword, setShowRegisterPassword] = useState(false);
+    const [authView, setAuthView] = useState('login'); // login | register
     const router = useRouter();
     const dispatch = useDispatch();
 
@@ -84,9 +86,11 @@ export default function Login() {
                 {/* border */}
                 <div className='border border-gray-200 m-8'></div>
 
-                <div className="grid md:grid-cols-2 grid-cols-1 gap-6 my-13">
-                    <div className="border border-gray-300 rounded p-6">
-                        <p className='text-[28px] text-center mb-4 font-bold'>Login</p>
+                <div className="max-w-xl mx-auto my-13">
+                    {authView === 'login' ? (
+                    <div className="border border-gray-300 rounded-lg p-6 shadow-sm">
+                        <p className='text-[24px] sm:text-[28px] text-center mb-1 font-bold'>Login</p>
+                        <p className='text-sm text-gray-500 text-center mb-4'>Already have an account? Sign in here.</p>
                         <form onSubmit={login} className="max-w-sm mx-auto">
                             <div className="mb-4">
                                 <label className='block text-sm font-medium mb-1'>Email *</label>
@@ -99,7 +103,7 @@ export default function Login() {
 
                                 <div className="relative">
                                     <input
-                                        type={show ? "text" : "password"}
+                                        type={showLoginPassword ? "text" : "password"}
                                         placeholder="Password"
                                         name="password"
                                         required
@@ -108,10 +112,10 @@ export default function Login() {
 
                                     <button
                                         type="button"
-                                        onClick={() => setShow(!show)}
+                                        onClick={() => setShowLoginPassword((prev) => !prev)}
                                         className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
                                     >
-                                        {show ? <BiHide size={20} /> : <BiShow size={20} />}
+                                        {showLoginPassword ? <BiHide size={20} /> : <BiShow size={20} />}
                                     </button>
                                 </div>
                             </div>
@@ -136,11 +140,21 @@ export default function Login() {
                                 <Link href={'/forgot-password'} className='text-sm text-gray-600 hover:underline'>Forgot Password?</Link>
                             </div>
                         </form>
+                        <div className="text-center mt-5 text-sm text-gray-600">
+                            Don&apos;t have an account?{' '}
+                            <button
+                                type="button"
+                                onClick={() => setAuthView('register')}
+                                className="text-[#C09578] font-semibold hover:underline cursor-pointer"
+                            >
+                                Create account
+                            </button>
+                        </div>
                     </div>
-
-                    {/* Register */}
-                    <div className="border border-gray-300 rounded p-6">
-                        <p className='text-[28px] text-center mb-4 font-bold'>Register</p>
+                    ) : (
+                    <div className="border border-gray-300 rounded-lg p-6 shadow-sm">
+                        <p className='text-[24px] sm:text-[28px] text-center mb-1 font-bold'>Register</p>
+                        <p className='text-sm text-gray-500 text-center mb-4'>New here? Create your account.</p>
                         <form onSubmit={register} className="max-w-sm mx-auto">
                             <div className="mb-4">
                                 <label className='block text-sm font-medium mb-1'>Email *</label>
@@ -153,7 +167,7 @@ export default function Login() {
 
                                 <div className="relative">
                                     <input
-                                        type={show ? "text" : "password"}
+                                        type={showRegisterPassword ? "text" : "password"}
                                         placeholder="Password"
                                         name="password"
                                         required
@@ -162,10 +176,10 @@ export default function Login() {
 
                                     <button
                                         type="button"
-                                        onClick={() => setShow(!show)}
+                                        onClick={() => setShowRegisterPassword((prev) => !prev)}
                                         className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
                                     >
-                                        {show ? <BiHide size={20} /> : <BiShow size={20} />}
+                                        {showRegisterPassword ? <BiHide size={20} /> : <BiShow size={20} />}
                                     </button>
                                 </div>
                             </div>
@@ -189,7 +203,18 @@ export default function Login() {
                                 </button>
                             </div>
                         </form>
+                        <div className="text-center mt-5 text-sm text-gray-600">
+                            Already have an account?{' '}
+                            <button
+                                type="button"
+                                onClick={() => setAuthView('login')}
+                                className="text-[#C09578] font-semibold hover:underline cursor-pointer"
+                            >
+                                Login
+                            </button>
+                        </div>
                     </div>
+                    )}
                 </div>
             </div>
 
