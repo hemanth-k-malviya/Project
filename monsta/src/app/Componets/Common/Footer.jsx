@@ -82,7 +82,7 @@ export default function Footer() {
                 </div>
                 <div className='border border-gray-200 m-1'></div>
                 <div className=' shadow'>
-                    <ul className='flex max-w-[500px] p-[20px] text-[rgb(90,90,90)] mx-auto justify-evenly'>
+                    <ul className='flex flex-wrap sm:flex-nowrap max-w-[500px] px-4 sm:px-5 py-4 sm:py-5 text-[rgb(90,90,90)] mx-auto justify-center sm:justify-evenly gap-x-5 gap-y-2 text-[14px] sm:text-[15px]'>
                         <li><Link href={'/'}>Home</Link></li>
                         <li><Link href={'/online-store'}>Online Store</Link></li>
                         <li><Link href={'/privacy-policy'}>Privacy Policy</Link></li>

@@ -7,6 +7,8 @@ import { IoIosArrowForward } from 'react-icons/io'
 import { toast } from 'react-toastify'
 import ProductCard from './ProductCard'
 import Upsell from './Upsell'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../store/cartSlice'
 
 
 export default function ProductDetails({ id: idProp }) {
@@ -15,6 +17,7 @@ export default function ProductDetails({ id: idProp }) {
     const [productDetails, setProductDetails] = useState(null);
     const [imageUrl, setImageUrl] = useState('');
     const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (!id) {
@@ -38,6 +41,12 @@ export default function ProductDetails({ id: idProp }) {
             })
             .finally(() => setLoading(false));
     }, [id]);
+
+    const handleAddToCart = () => {
+        if (!productDetails) return;
+        dispatch(addToCart({ ...productDetails, imagePath: imageUrl }));
+        toast.success('Added to cart');
+    };
     if (loading) {
         return (
             <div className="max-w-[1280px] w-full mx-auto my-1 px-4 flex justify-center items-center min-h-[200px]">
@@ -87,7 +96,13 @@ export default function ProductDetails({ id: idProp }) {
                         {/* border */}
                         <div className='border border-gray-200 my-5'></div>
 
-                        <button type="submit" className='bg-[#C09578] hover:bg-black text-white rounded px-8 sm:px-10 py-2 my-3'>Add To Cart</button>
+                        <button
+                            type="button"
+                            onClick={handleAddToCart}
+                            className='bg-[#C09578] hover:bg-black text-white rounded px-8 sm:px-10 py-2 my-3'
+                        >
+                            Add To Cart
+                        </button>
                         <p className='text-[15px] font-semibold py-1'>Code : <span className='mr-2 text-gray-600'>{productDetails.code}</span></p>
                         <p className='text-[15px] font-semibold py-1'>Dimension : <span className='mr-2 text-gray-700 '>{productDetails.dimension}</span></p>
                         <p className='text-[15px] font-semibold py-1'>Estimate Delivery Days : <span className='mr-2 text-gray-700 '>{productDetails.estimate_delivery_days}</span></p>

@@ -43,18 +43,6 @@ export default function Profile() {
   const [isLoading, setisLoading] = useState(false);
   const [imageURL, setImageUrl] = useState('');
 
-  const getProfileImageSrc = () => {
-    const file = userProfile?.image;
-    if (!file) return '';
-
-    // If API already returns a full URL, use it directly.
-    if (typeof file === "string" && file.startsWith("http")) return file;
-    if (!imageURL) return file;
-
-    const sep = imageURL.endsWith("/") ? "" : "/";
-    return `${imageURL}${sep}${file}`;
-  };
-
   useEffect(() => {
     const dropifyElement = $("#image");
 
@@ -191,7 +179,7 @@ export default function Profile() {
           <div className="py-[40px] text-center">
             <img
               className="w-[80px] h-[80px] mx-auto rounded-full"
-              src={getProfileImageSrc()}
+              src={`${imageURL}/${userProfile.image}`}
               alt="Profile"
             />
             <h5 className="pt-[6px]">{userProfile.name}</h5>

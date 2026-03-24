@@ -59,29 +59,29 @@ export default function Home() {
             {/* Chair Collection end */}
             <div className="max-w-[1280px] w-full mx-auto px-4">
                 <div className="flex justify-center mt-6 sm:mt-8">
-                    <div className="w-full sm:max-w-3xl overflow-x-auto sm:overflow-visible scrollbar-hidden">
-                        <div className="w-max min-w-full sm:w-full flex flex-nowrap sm:grid sm:grid-cols-3 border border-gray-200 rounded-md">
+                    <div className="w-full sm:max-w-3xl mx-auto">
+                        <div className="w-full grid grid-cols-3 border border-gray-200 rounded-md">
                             <div
                                 onClick={() => setActiveTab('featured')}
-                                className={`px-4 sm:px-8 lg:px-12 py-2.5 text-center text-sm sm:text-lg font-medium border-r sm:border-r border-gray-300 hover:text-[#C09578] whitespace-nowrap cursor-pointer transition-colors ${activeTab === 'featured' ? 'text-[#C09578] bg-[#C09578]/5' : 'text-black'}`} >
+                                className={`px-2 sm:px-8 lg:px-12 py-2.5 text-center text-sm sm:text-lg font-medium border-r border-gray-300 hover:text-[#C09578] cursor-pointer transition-colors ${activeTab === 'featured' ? 'text-[#C09578] bg-[#C09578]/5' : 'text-black'}`} >
                                 Featured
                             </div>
                             <div
                                 onClick={() => setActiveTab('new_arrival')}
-                                className={`px-4 sm:px-8 lg:px-12 py-2.5 text-center text-sm sm:text-lg font-medium border-r border-gray-300 hover:text-[#C09578] whitespace-nowrap cursor-pointer transition-colors ${activeTab === 'new_arrival' ? 'text-[#C09578] bg-[#C09578]/5' : 'text-black'}`}>
+                                className={`px-2 sm:px-8 lg:px-12 py-2.5 text-center text-sm sm:text-lg font-medium border-r border-gray-300 hover:text-[#C09578] cursor-pointer transition-colors ${activeTab === 'new_arrival' ? 'text-[#C09578] bg-[#C09578]/5' : 'text-black'}`}>
                                 New Arrivals
                             </div>
                             <div
                                 onClick={() => setActiveTab('onsale')}
-                                className={`px-4 sm:px-8 lg:px-12 py-2.5 text-center text-sm sm:text-lg font-medium hover:text-[#C09578] whitespace-nowrap cursor-pointer transition-colors ${activeTab === 'onsale' ? 'text-[#C09578] bg-[#C09578]/5' : 'text-black'}`}>
-                                Onsale
+                                className={`px-2 sm:px-8 lg:px-12 py-2.5 text-center text-sm sm:text-lg font-medium hover:text-[#C09578] cursor-pointer transition-colors ${activeTab === 'onsale' ? 'text-[#C09578] bg-[#C09578]/5' : 'text-black'}`}>
+                                On Sale
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="mt-4 sm:mt-6">
-                <ProductCard activeTab={activeTab} />
+                <ProductCard activeTab={activeTab}/>
             </div>
 
             {/* New Trending Collection */}

@@ -102,9 +102,9 @@ export default function ShoppingCart() {
                                         const imgSrc = item.image ? `${item.imagePath || ''}${item.image}` : null;
                                         return (
                                             <div key={id} className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-[#C09578] group">
-                                                <div className="grid grid-cols-1 md:grid-cols-5 gap-4 p-6 items-center">
+                                                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 p-4 sm:p-6 items-center">
                                                     {/* Product Image & Info */}
-                                                    <div className="md:col-span-2 flex gap-4">
+                                                    <div className="col-span-2 md:col-span-2 flex gap-4">
                                                         <div className="relative w-24 h-24 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex-shrink-0 overflow-hidden shadow-md group-hover:shadow-lg transition">
                                                             {imgSrc ? (
                                                                 <img src={imgSrc} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition duration-300" />
@@ -129,32 +129,32 @@ export default function ShoppingCart() {
 
                                                     {/* Quantity Control */}
                                                     <div className="flex items-center justify-center">
-                                                        <div className="flex items-center gap-2 border-2 border-gray-200 rounded-full p-1 bg-gray-50 hover:border-[#C09578] transition">
+                                                        <div className="flex items-center gap-1 sm:gap-2 border-2 border-gray-200 rounded-full p-1 bg-gray-50 hover:border-[#C09578] transition">
                                                             <button
                                                                 onClick={() => handleDecrease(id)}
-                                                                className="p-2 hover:bg-[#C09578] hover:text-white rounded-full transition"
+                                                                className="p-1.5 sm:p-2 hover:bg-[#C09578] hover:text-white rounded-full transition"
                                                                 aria-label="Decrease quantity"
                                                             >
-                                                                <AiOutlineMinus size={14} />
+                                                                <AiOutlineMinus size={12} className="sm:w-[14px] sm:h-[14px]" />
                                                             </button>
                                                             <input
                                                                 type="number"
                                                                 value={item.quantity}
                                                                 readOnly
-                                                                className="w-10 text-center border-0 outline-none bg-transparent font-semibold"
+                                                                className="w-8 sm:w-10 text-center border-0 outline-none bg-transparent font-semibold text-sm sm:text-base"
                                                             />
                                                             <button
                                                                 onClick={() => handleIncrease(item)}
-                                                                className="p-2 hover:bg-[#C09578] hover:text-white rounded-full transition"
+                                                                className="p-1.5 sm:p-2 hover:bg-[#C09578] hover:text-white rounded-full transition"
                                                                 aria-label="Increase quantity"
                                                             >
-                                                                <AiOutlinePlus size={14} />
+                                                                <AiOutlinePlus size={12} className="sm:w-[14px] sm:h-[14px]" />
                                                             </button>
                                                         </div>
                                                     </div>
 
                                                     {/* Total & Remove */}
-                                                    <div className="flex justify-between md:justify-end gap-4 items-center">
+                                                    <div className="col-span-2 md:col-span-1 flex justify-between md:justify-end gap-4 items-center">
                                                         <div className="text-right">
                                                             <p className="font-bold text-gray-800 text-base md:text-lg">
                                                                 Rs. {(Number(item.sale_price || 0) * item.quantity).toFixed(2)}

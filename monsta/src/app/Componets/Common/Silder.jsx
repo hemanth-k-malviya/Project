@@ -23,25 +23,28 @@ export default function Silder() {
     }
     return (
         <>
-            <div className=" h-[500px] w-full m-auto py-3 px-4 relative group">
+            <div className="w-full h-[220px] sm:h-[320px] md:h-[420px] lg:h-[500px] m-auto py-3 px-4 relative group">
                 {/* The Image */}
-                <div
-                    style={{ backgroundImage: `url(${images[currentIndex]})` }}
-                    className="w-full h-full rounded-2xl bg-center bg-cover duration-500">
-                    </div>
+                <div className="w-full h-full rounded-2xl bg-white duration-500 overflow-hidden">
+                    <img
+                        src={images[currentIndex]}
+                        alt={`Slide ${currentIndex + 1}`}
+                        className="w-full h-full object-contain"
+                    />
+                </div>
 
                 {/* Left Arrow */}
                 <div
-                    className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer hover:bg-black/50 transition"
+                    className="absolute top-[50%] -translate-x-0 translate-y-[-50%] left-2 sm:left-5 text-2xl rounded-full p-1.5 sm:p-2 bg-black/20 text-white cursor-pointer hover:bg-black/50 transition"
                     onClick={prevSlide}>
-                    <ChevronLeft size={30} />
+                    <ChevronLeft size={22} className="sm:w-[30px] sm:h-[30px]" />
                 </div>
 
                 {/* Right Arrow */}
                 <div
-                    className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer hover:bg-black/50 transition"
+                    className="absolute top-[50%] -translate-x-0 translate-y-[-50%] right-2 sm:right-5 text-2xl rounded-full p-1.5 sm:p-2 bg-black/20 text-white cursor-pointer hover:bg-black/50 transition"
                     onClick={nextSlide} >
-                    <ChevronRight size={30} />
+                    <ChevronRight size={22} className="sm:w-[30px] sm:h-[30px]" />
                 </div>
 
                 {/* Dots at bottom
