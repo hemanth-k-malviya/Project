@@ -16,6 +16,8 @@ export default function RootLayout({ children }) {
         <Providers>
           <Header />
           {children}
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9387062363004258"
+            crossorigin="anonymous"></script>
           <Footer />
         </Providers>
       </body>
