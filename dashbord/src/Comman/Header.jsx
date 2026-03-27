@@ -1,27 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { FaBars } from "react-icons/fa";
 import { RiProfileFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
+import { useProfile } from '../context/ProfileContext';
 
 export default function Header() {
-  const [headerImage, setHeaderImage] = useState(() => localStorage.getItem("profile_image") || "");
-
-  useEffect(() => {
-    const sync = () => setHeaderImage(localStorage.getItem("profile_image") || "");
-
-    // Other tabs/windows
-    window.addEventListener("storage", sync);
-    // Same tab (we dispatch this from Profile.jsx)
-    window.addEventListener("profile-updated", sync);
-
-    return () => {
-      window.removeEventListener("storage", sync);
-      window.removeEventListener("profile-updated", sync);
-    };
-  }, []);
-
   const fallbackImage =
     "https://i.pinimg.com/736x/bc/b2/3c/bcb23cb2c58aa5604164303f0a9194a1.jpg";
+  const { profileImageUrl } = useProfile();
 
   return (
     <div  className='h-[90px] flex justify-between p-[25px_30px] shadow-xl'>
@@ -30,7 +16,7 @@ export default function Header() {
             <h3 className='ml-[10px] text-black'>Dashbord</h3>
         </div>
         <figure className='relative group w-12 h-12 cursor-pointer rounded-full'>
-        <img src={headerImage || fallbackImage} className='w-[50px] h-[50px] rounded-[50%]'/>
+        <img src={profileImageUrl || fallbackImage} className='w-[50px] h-[50px] rounded-[50%]'/>
         <HeadDropDown/>
     </figure>
     </div>

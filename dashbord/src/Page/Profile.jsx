@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { IoPhonePortrait } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 import { useForm } from "react-hook-form";
@@ -8,11 +8,14 @@ import "dropify/dist/js/dropify.min.js";
 import Breadcrumb from "../Comman/Breadcrumb";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useProfile } from "../context/ProfileContext";
 
 export default function Profile() {
 
   const [activeTab, setActiveTab] = useState("editProfile");
   const token = localStorage.getItem("token");
+  const imageInputRef = useRef(null);
+  const { refreshProfile } = useProfile();
 
 
   const {
@@ -32,24 +35,33 @@ export default function Profile() {
   const [isLoading, setisLoading] = useState(false);
   const [imageURL, setImageUrl] = useState('');
 
-  useEffect(() => {
-    const dropifyElement = $("#image");
+  const defaultProfileImage = useMemo(() => {
+    if (!imageURL || !userProfile?.image) return "";
+    return `${imageURL}/${userProfile.image}`;
+  }, [imageURL, userProfile]);
 
-    if (dropifyElement.data("dropify")) {
-      dropifyElement.data("dropify").destroy();
-      dropifyElement.removeData("dropify");
+  useEffect(() => {
+    if (activeTab !== "editProfile") return;
+    if (!imageInputRef.current) return;
+
+    const $el = $(imageInputRef.current);
+
+    const existing = $el.data("dropify");
+    if (existing) {
+      existing.destroy();
+      $el.removeData("dropify");
     }
 
-    // **Force Update Dropify Input**
-    dropifyElement.replaceWith(
-      `<input type="file" accept="image/*" name="image" id="image"
-          class="dropify" data-height="250" data-default-file="${imageURL}"/>`
-    );
+    $el.dropify();
 
-    // **Reinitialize Dropify**
-    $("#image").dropify();
-
-  }, [imageURL,activeTab]); // ✅ Runs when `defaultImage` updates
+    return () => {
+      const inst = $el.data("dropify");
+      if (inst) {
+        inst.destroy();
+        $el.removeData("dropify");
+      }
+    };
+  }, [activeTab, defaultProfileImage]);
 
   useEffect(() => {
     if (!token) {
@@ -67,14 +79,6 @@ export default function Profile() {
           setUserEmail(result.data._data.email);
           setImageUrl(result.data._image_path)
           setSelectedTitle(result.data._data.gender)
-
-          // Keep header avatar in sync
-          const nextProfileImage =
-            result.data?._image_path && result.data?._data?.image
-              ? `${result.data._image_path}/${result.data._data.image}`
-              : "";
-          localStorage.setItem("profile_image", nextProfileImage);
-          window.dispatchEvent(new Event("profile-updated"));
         } else {
           toast.error(result.data._message)
         }
@@ -101,17 +105,7 @@ export default function Profile() {
         if (result.data._status === true) {
           setUserProfile(result.data._data);
           toast.success(result.data._message)
-
-          // If API returns updated image path/name, sync header avatar.
-          // Otherwise, the next view-profile fetch will refresh it.
-          const updatedImagePath = result.data?._image_path || imageURL;
-          const updatedImageName = result.data?._data?.image || userProfile?.image;
-          const nextProfileImage =
-            updatedImagePath && updatedImageName
-              ? `${updatedImagePath}/${updatedImageName}`
-              : "";
-          localStorage.setItem("profile_image", nextProfileImage);
-          window.dispatchEvent(new Event("profile-updated"));
+          refreshProfile();
 
           setUpadateProfile(!updateProfile)
           setisLoading(false)
@@ -235,12 +229,14 @@ export default function Profile() {
                     Choose Image
                   </label>
                   <input
+                    ref={imageInputRef}
                     type="file"
                     accept="image/*"
                     name="image"
                     id="image"
                     className="dropify"
                     data-height="236"
+                    data-default-file={defaultProfileImage}
                   />
                 </div>
                 <div className="w-2/3">
