@@ -225,6 +225,13 @@ export default function Orders() {
                 </tbody >
               </table>
             </div>
+            <div className="w-full flex justify-center m-3">
+              <ResponsivePagination
+                current={currentPage}
+                total={totalPage}
+                onPageChange={setCurrentPage}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -341,13 +348,6 @@ export default function Orders() {
                         </span>
                       </li>
                     </ul>
-                  </div>
-                  <div className='w-300 auto mb-3'>
-                    <ResponsivePagination
-                      current={currentPage}
-                      total={totalPage}
-                      onPageChange={setCurrentPage}
-                    />
                   </div>
                 </div>
               </div>

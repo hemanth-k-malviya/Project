@@ -15,17 +15,6 @@ export default function Profile() {
   const token = localStorage.getItem("token");
 
 
-  useEffect(() => {
-    $(".dropify").dropify({
-      messages: {
-        default: "Profile ",
-        replace: "Drag and drop ",
-        remove: "Remove",
-        error: "Oops, something went wrong"
-      }
-    });
-  }, [activeTab]);
-
   const {
     register,
     handleSubmit,
@@ -60,7 +49,7 @@ export default function Profile() {
     // **Reinitialize Dropify**
     $("#image").dropify();
 
-  }, [imageURL]); // ✅ Runs when `defaultImage` updates
+  }, [imageURL,activeTab]); // ✅ Runs when `defaultImage` updates
 
   useEffect(() => {
     if (!token) {
@@ -76,8 +65,16 @@ export default function Profile() {
         if (result.data._status === true) {
           setUserProfile(result.data._data);
           setUserEmail(result.data._data.email);
-           setImageUrl(result.data._image_path)
+          setImageUrl(result.data._image_path)
           setSelectedTitle(result.data._data.gender)
+
+          // Keep header avatar in sync
+          const nextProfileImage =
+            result.data?._image_path && result.data?._data?.image
+              ? `${result.data._image_path}/${result.data._data.image}`
+              : "";
+          localStorage.setItem("profile_image", nextProfileImage);
+          window.dispatchEvent(new Event("profile-updated"));
         } else {
           toast.error(result.data._message)
         }
@@ -104,6 +101,17 @@ export default function Profile() {
         if (result.data._status === true) {
           setUserProfile(result.data._data);
           toast.success(result.data._message)
+
+          // If API returns updated image path/name, sync header avatar.
+          // Otherwise, the next view-profile fetch will refresh it.
+          const updatedImagePath = result.data?._image_path || imageURL;
+          const updatedImageName = result.data?._data?.image || userProfile?.image;
+          const nextProfileImage =
+            updatedImagePath && updatedImageName
+              ? `${updatedImagePath}/${updatedImageName}`
+              : "";
+          localStorage.setItem("profile_image", nextProfileImage);
+          window.dispatchEvent(new Event("profile-updated"));
 
           setUpadateProfile(!updateProfile)
           setisLoading(false)
