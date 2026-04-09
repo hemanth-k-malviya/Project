@@ -91,7 +91,7 @@ export default function ViewSliders() {
       setCheckBoxValues([]);
 
       const ids = [];
-      categories.forEach((v) => {
+      slider.forEach((v) => {
         ids.push(v._id);
       })
 
@@ -110,6 +110,22 @@ export default function ViewSliders() {
           setAPIStatus(!apiStatus)
           setCheckBoxValues([]);
           setButtonDisabled(true);
+        } else {
+          toast.error(result.data._message);
+        }
+      })
+      .catch(() => {
+        toast.error('Something went wrong !!');
+      })
+  }
+  const changeSingleStatus = (id) => {
+    axios.post(`${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_SLIDER_API}/change-status`, {
+      ids: [id]
+    })
+      .then((result) => {
+        if (result.data._status == true) {
+          toast.success(result.data._message);
+          setAPIStatus(!apiStatus);
         } else {
           toast.error(result.data._message);
         }
@@ -266,12 +282,22 @@ export default function ViewSliders() {
                                 {v.order}
                               </td>
                               <td class=" py-4">
-                                {
+                              {
                                   v.status == 1
                                     ?
-                                    <button type="button" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1.5 text-center me-2 mb-2">Active</button>
+                                    <button
+                                      type="button"
+                                      onClick={() => changeSingleStatus(v._id)}
+                                      class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1.5 text-center me-2 mb-2">
+                                      Active
+                                    </button>
                                     :
-                                    <button type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-1.5 text-center me-2 mb-2">Deactive</button>
+                                    <button
+                                      type="button"
+                                      onClick={() => changeSingleStatus(v._id)}
+                                      class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-1.5 text-center me-2 mb-2">
+                                      Deactive
+                                    </button>
                                 }
 
                               </td>

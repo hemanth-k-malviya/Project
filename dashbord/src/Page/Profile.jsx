@@ -167,8 +167,8 @@ export default function Profile() {
         <div className="bg-white  self-start  rounded-lg shadow-md">
           <div className="py-[40px] text-center">
             <img
-              className="w-[80px] h-[80px] mx-auto rounded-full"
-              src={`${imageURL}/${userProfile.image}`}
+              className="w-[80px] h-[80px] mx-auto rounded-full" 
+              src={`${imageURL}${userProfile.image}`}
               alt="Profile"
             />
             <h5 className="pt-[6px]">{userProfile.name}</h5>

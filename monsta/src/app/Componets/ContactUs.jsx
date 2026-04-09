@@ -1,18 +1,46 @@
+"use client"
 import React from 'react'
 import { IoIosArrowForward } from "react-icons/io";
 import { FaRegAddressCard } from "react-icons/fa";
 import { IoIosCall } from "react-icons/io";
 import { GoMail } from "react-icons/go";
 import Link from 'next/link';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 
 export default function ContactUs() {
+
+  const formHandler = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const payload = {
+      name: formData.get('name')?.toString().trim() || '',
+      email: formData.get('email')?.toString().trim() || '',
+      mobile_number: formData.get('mobile_number')?.toString().trim() || '',
+      subject: formData.get('subject')?.toString().trim() || '',
+      message: formData.get('message')?.toString().trim() || '',
+    };
+
+    axios.post(`${process.env.NEXT_PUBLIC_APIS_URL}/contact/create`, payload)
+      .then((result) => {
+        if (result.data._status === true) {
+          toast.success(result.data._message);
+          event.target.reset()
+        } else {
+          toast.error(result.data._message);
+        }
+      })
+        .catch(() => {
+          toast.error('Something went wrong!');
+        })
+  }
   return (
     <>
       <div className="max-w-[1280px] w-full mx-auto my-1 px-4">
         <p className='text-[28px] sm:text-[34px] md:text-[40px] font-bold text-center'> Contact Us</p>
         <div className='flex justify-center' >
-          <Link href={'/'}><p className="text-[16px] hover:text-[#C09578]"> Home </p></Link>  
+          <Link href={'/'}><p className="text-[16px] hover:text-[#C09578]"> Home </p></Link>
           <p className="text-[16px] text-[#C09578] px-1"><IoIosArrowForward className='mt-1.5' /></p>
           <p className="text-[16px] text-[#C09578]">Contact Us </p>
         </div>
@@ -60,40 +88,38 @@ export default function ContactUs() {
 
           </div>
 
-          <div className="">
-            <p className="text-[20px] mt-2 mb-4 font-bold mx-4">Tell us your question</p>
-            <div className=" my-2 mx-4">
-              <p className='text-[14px] text-gray-700 font-bold  m-2'>Your Name (required)</p>
-              <input type="text" placeholder='Name' required className='w-full px-4 py-2 border border-gray-200 text-gray-600  outline-none' />
-            </div>
+          <form onSubmit={formHandler} autoComplete="off">
+            <div className="">
+              <p className="text-[20px] mt-2 mb-4 font-bold mx-4">Tell us your question</p>
+              <div className=" my-2 mx-4">
+                <p className='text-[14px] text-gray-700 font-bold  m-2'>Your Name (required)</p>
+                <input type="text" name='name' placeholder='Name' required className='w-full px-4 py-2 border border-gray-200 text-gray-600  outline-none' />
+              </div>
 
-            <div className=" my-2 mx-4">
-              <p className='text-[14px] text-gray-700 font-bold  m-2'>Your Email (required)</p>
-              <input type="text" placeholder='Email' required className='w-full px-4 py-2 border border-gray-200 text-gray-600  outline-none' />
-            </div>
+              <div className=" my-2 mx-4">
+                <p className='text-[14px] text-gray-700 font-bold  m-2'>Your Email (required)</p>
+                <input type="text" name='email' placeholder='Email' required className='w-full px-4 py-2 border border-gray-200 text-gray-600  outline-none' />
+              </div>
 
-            <div className=" my-2 mx-4">
-              <p className='text-[14px] text-gray-700 font-bold  m-2'>Your Mobile Number (required)</p>
-              <input type="number" placeholder='Mobile Number' required className='w-full px-4 py-2 border border-gray-200 text-gray-600  outline-none' />
-            </div>
+              <div className=" my-2 mx-4">
+                <p className='text-[14px] text-gray-700 font-bold  m-2'>Your Mobile Number (required)</p>
+                <input type="number" name='mobile_number' placeholder='Mobile Number' required className='w-full px-4 py-2 border border-gray-200 text-gray-600  outline-none' />
+              </div>
 
-            <div className=" my-2 mx-4">
-              <p className='text-[14px] text-gray-700 font-bold  m-2'>Subject</p>
-              <input type="text" placeholder='Subject' required className='w-full px-4 py-2 border border-gray-200 text-gray-600  outline-none' />
-            </div>
+              <div className=" my-2 mx-4">
+                <p className='text-[14px] text-gray-700 font-bold  m-2'>Subject</p>
+                <input type="text" name='subject' placeholder='Subject' required className='w-full px-4 py-2 border border-gray-200 text-gray-600  outline-none' />
+              </div>
 
-            <div className=" my-2 mx-4">
-              <p className='text-[14px] text-gray-700 font-bold  m-2'>Your Message (required)</p>
-              <textarea placeholder='Message' required className='w-full h-30 px-4 pt-2 border border-gray-200 text-gray-600 outline-none resize-none' />
-            </div>
-
+              <div className=" my-2 mx-4">
+                <p className='text-[14px] text-gray-700 font-bold  m-2'>Your Message (required)</p>
+                <textarea placeholder='Message' name='message' required className='w-full h-30 px-4 pt-2 border border-gray-200 text-gray-600 outline-none resize-none' />
+              </div>
               <button className='border bg-black rounded-[12px] text-white text-[15px] px-5 py-2 mx-4'> Send </button>
-          </div>
+            </div>
+          </form>
         </div>
-      </div>
-
-
-
+      </div >
     </>
   )
 }

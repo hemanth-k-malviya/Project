@@ -11,143 +11,161 @@ import 'react-responsive-pagination/themes/classic-light-dark.css';
 
 export default function Users() {
 
-    let [activeFilter, setactiveFilter] = useState(true);
-    const [users, setUsers] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [searchName, setSearchName] = useState('');
-    const [searchEmail, setSearchEmail] = useState('');
-    const [checkBoxValue, setcheckBoxValue] = useState([]);
-    const [buttonDisabled, setButtonDisabled] = useState(true);
-    const [apiStatus, setApiStatus] = useState(true);
+  let [activeFilter, setactiveFilter] = useState(true);
+  const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchName, setSearchName] = useState('');
+  const [searchEmail, setSearchEmail] = useState('');
+  const [checkBoxValue, setcheckBoxValue] = useState([]);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [apiStatus, setApiStatus] = useState(true);
 
-    useEffect(() => {
-        axios.post(`${import.meta.env.VITE_WEBSITE_USERS}/view-users`, {
-            page: currentPage,
-            name: searchName,
-            code: searchEmail
-        })
-            .then((result) => {
-                if (result.data._status == true) {
-                    setUsers(result.data._data)
-                    setTotalPages(result.data._paginate.total_page)
-                } else {
-                    setUsers([])
-                    setTotalPages(1);
-                }
-            })
-            .catch(() => {
-                toast.error('Something went wrong !!')
-            })
-    }, [currentPage, searchName, searchEmail, apiStatus])
-
-    const searchHandler = (event) => {
-        event.preventDefault();
-        setCurrentPage(1);
-        setSearchName(event.target.name.value);
-        setSearchEmail(event.target.email.value);
-
-    }
-
-    const filterByName = (event) => {
-        setCurrentPage(1);
-        setSearchName(event.target.value);
-    }
-
-    const filterByEmail = (event) => {
-        setCurrentPage(1);
-        setSearchEmail(event.target.value);
-    }
-
-    const singlrCheckBox = (id) => {
-
-        const checkValue = checkBoxValue.filter((v) => {
-            if (v == id) {
-                return v;
-            }
-        })
-        if (checkValue.length > 0) {
-            const finalValue = checkBoxValue.filter((v) => {
-                if (v != id) {
-                    return v;
-                }
-            })
-            setcheckBoxValue([...finalValue]);
-            if (checkBoxValue.length > 0) {
-                setButtonDisabled(false);
-            } else {
-                setButtonDisabled(true);
-            }
+  useEffect(() => {
+    axios.post(`${import.meta.env.VITE_WEBSITE_USERS}/view-users`, {
+      page: currentPage,
+      name: searchName,
+      code: searchEmail
+    })
+      .then((result) => {
+        if (result.data._status == true) {
+          setUsers(result.data._data)
+          setTotalPages(result.data._paginate.total_page)
         } else {
-            var newData = [...checkBoxValue, id]
-            setcheckBoxValue(newData);
-            if (newData.length > 0) {
-                setButtonDisabled(false);
-            } else {
-                setButtonDisabled(true);
-            }
+          setUsers([])
+          setTotalPages(1);
         }
+      })
+      .catch(() => {
+        toast.error('Something went wrong !!')
+      })
+  }, [currentPage, searchName, searchEmail, apiStatus])
 
+  const searchHandler = (event) => {
+    event.preventDefault();
+    setCurrentPage(1);
+    setSearchName(event.target.name.value);
+    setSearchEmail(event.target.email.value);
+
+  }
+
+  const filterByName = (event) => {
+    setCurrentPage(1);
+    setSearchName(event.target.value);
+  }
+
+  const filterByEmail = (event) => {
+    setCurrentPage(1);
+    setSearchEmail(event.target.value);
+  }
+
+  const singlrCheckBox = (id) => {
+
+    const checkValue = checkBoxValue.filter((v) => {
+      if (v == id) {
+        return v;
+      }
+    })
+    if (checkValue.length > 0) {
+      const finalValue = checkBoxValue.filter((v) => {
+        if (v != id) {
+          return v;
+        }
+      })
+      setcheckBoxValue([...finalValue]);
+      if (checkBoxValue.length > 0) {
+        setButtonDisabled(false);
+      } else {
+        setButtonDisabled(true);
+      }
+    } else {
+      var newData = [...checkBoxValue, id]
+      setcheckBoxValue(newData);
+      if (newData.length > 0) {
+        setButtonDisabled(false);
+      } else {
+        setButtonDisabled(true);
+      }
     }
 
+  }
 
 
-    const allCheckBoxSelect = () => {
-        if (checkBoxValue.length == users.length) {
-            setcheckBoxValue([]);
-            setButtonDisabled(true);
+  const allCheckBoxSelect = () => {
+    if (checkBoxValue.length == users.length) {
+      setcheckBoxValue([]);
+      setButtonDisabled(true);
+    } else {
+      setcheckBoxValue([]);
+      const ids = [];
+
+      colors.forEach((v) => {
+        ids.push(v._id);
+      })
+      setcheckBoxValue([...ids]);
+      setButtonDisabled(false);
+    }
+  }
+
+  const changestatus = () => {
+    axios.post(`${import.meta.env.VITE_WEBSITE_USERS}/change-status`, {
+      ids: checkBoxValue
+    })
+      .then((result) => {
+        if (result.data._status == true) {
+          toast.success(result.data._message);
+          setApiStatus(!apiStatus);
+          setcheckBoxValue([]);
+          setButtonDisabled(true)
         } else {
-            setcheckBoxValue([]);
-            const ids = [];
-
-            colors.forEach((v) => {
-                ids.push(v._id);
-            })
-            setcheckBoxValue([...ids]);
-            setButtonDisabled(false);
+          toast.error(result.data._message)
         }
-    }
+      })
+      .catch(() => {
+        toast.error('Something went wrong !!')
+      })
+  }
 
-    const changestatus = () => {
-        axios.post(`${import.meta.env.VITE_WEBSITE_USERS}/change-status`, {
-            ids: checkBoxValue
-        })
-            .then((result) => {
-                if (result.data._status == true) {
-                    toast.success(result.data._message);
-                    setApiStatus(!apiStatus);
-                    setcheckBoxValue([]);
-                    setButtonDisabled(true)
-                } else {
-                    toast.error(result.data._message)
-                }
-            })
-            .catch(() => {
-                toast.error('Something went wrong !!')
-            })
-    }
+  const changeSingleStatus = (id) => {
+    if (!id) return;
 
-    const deleteRecords = () => {
-        axios.put(`${import.meta.env.VITE_WEBSITE_USERS}/delete`, {
-            ids: checkBoxValue
-        })
-            .then((result) => {
-                if (result.data._status == true) {
-                    toast.success(result.data._message);
-                    setApiStatus(!apiStatus)
-                    setcheckBoxValue([]);
-                    setButtonDisabled(true)
-                } else {
-                    toast.error(result.data._message)
-                }
-            })
-            .catch(() => {
-                toast.error('Something went wrong !!')
-            })
-    }
+    axios.post(`${import.meta.env.VITE_WEBSITE_USERS}/change-status`, {
+      ids: [id]
+    })
+      .then((result) => {
+        if (result.data._status == true) {
+          toast.success(result.data._message);
+          setApiStatus(!apiStatus);
+        } else {
+          toast.error(result.data._message);
+        }
+      })
+      .catch(() => {
+        toast.error('Something went wrong !!');
+      })
+  }
 
-    return (
-       <section className="w-full">
+  const deleteRecords = () => {
+    axios.put(`${import.meta.env.VITE_WEBSITE_USERS}/delete`, {
+      ids: checkBoxValue
+    })
+      .then((result) => {
+        if (result.data._status == true) {
+          toast.success(result.data._message);
+          setApiStatus(!apiStatus)
+          setcheckBoxValue([]);
+          setButtonDisabled(true)
+        } else {
+          toast.error(result.data._message)
+        }
+      })
+      .catch(() => {
+        toast.error('Something went wrong !!')
+      })
+  }
+
+  return (
+    <section className="w-full">
 
       <Breadcrumb path={"User"} link={"/user"} path2={"View"} slash={"/"} />
 
@@ -161,20 +179,16 @@ export default function Users() {
               name='name'
               onKeyUp={filterByName}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Search  name..."
-
-            />
+              placeholder="Search  name..." />
           </div>
           <div className="relative w-full me-4">
             <input
               type="text"
-              id="code"
-              name='code'
+               id="email"
+              name='email'
               onKeyUp={filterByEmail}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-2 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Search  email..."
-
-            />
+              placeholder="Search  email..."/>
           </div>
           <button
             type="submit"
@@ -246,7 +260,7 @@ export default function Users() {
                         </div>
                       </th>
                       <th scope="col" className="px-6 py-3">
-                         Name
+                        Name
                       </th>
                       <th scope="col" className="  ">
                         Email
@@ -296,12 +310,22 @@ export default function Users() {
                                 {v.mobile_number}
                               </td>
                               <td class=" py-4">
-                                {
+                                 {
                                   v.status == 1
                                     ?
-                                    <button type="button" class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1.5 text-center me-2 mb-2">Active</button>
+                                    <button
+                                      type="button"
+                                      onClick={() => changeSingleStatus(v._id)}
+                                      class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-1.5 text-center me-2 mb-2">
+                                      Active
+                                    </button>
                                     :
-                                    <button type="button" class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-1.5 text-center me-2 mb-2">Deactive</button>
+                                    <button
+                                      type="button"
+                                      onClick={() => changeSingleStatus(v._id)}
+                                      class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-1.5 text-center me-2 mb-2">
+                                      Deactive
+                                    </button>
                                 }
 
                               </td>
@@ -324,8 +348,6 @@ export default function Users() {
 
                             </div>
                           </td>
-
-
                         </tr>
                     }
 
@@ -347,7 +369,7 @@ export default function Users() {
       </div>
 
     </section>
-    )
+  )
 }
 
 

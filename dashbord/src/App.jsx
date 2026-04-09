@@ -13,7 +13,7 @@ function App() {
   let signIn = (e) => {
     e.preventDefault()
     setLoginLoadind(true)
-    axios.post(`${import.meta.env.VITE_BASE_URL}/api/admin/user/login`, e.target)
+    axios.post(`${import.meta.env.VITE_WEBSITE_USERS}/login`, e.target)
       .then((result) => {
         if (result.data._status == true) {
           localStorage.setItem("token", result.data._token);

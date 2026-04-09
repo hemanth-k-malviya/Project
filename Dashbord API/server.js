@@ -44,9 +44,8 @@ require('./src/routes/admin/slider.routes .js')(server);
 require('./src/routes/admin/whyChooseUs.routes.js')(server);
 require('./src/routes/admin/faqs.routes.js')(server);
 require('./src/routes/admin/testimonials.routes.js')(server);
-require('./src/routes/admin/adminUser.routes.js')(server);
-require('./src/routes/admin/dashboard.routes.js')(server);
-
+require('./src/routes/admin/contactEnquiry.routes.js')(server);
+require('./src/routes/admin/newsletter.routes.js')(server);
 
 
 mongoose.connect(`mongodb+srv://${process.env.user_name}:${process.env.password}@cluster0.mn2naxz.mongodb.net/${process.env.db_name}?appName=Cluster0`)

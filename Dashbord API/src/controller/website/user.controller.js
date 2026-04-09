@@ -124,7 +124,7 @@ exports.viewProfile = async (request, response) => {
                         _data: result
                     }
                     response.send(data);
-                } else {
+                } else { 
                     const data = {
                         _status: false,
                         _message: 'Record not found ',
